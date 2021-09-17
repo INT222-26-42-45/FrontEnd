@@ -2,7 +2,7 @@
   <div class=" w-full  md:overflow-hidden">
     <div class="text-base px-5 pt-4 md:flex md:items-stretch md:justify-end ">
       <router-link to="/manage-product" class="text-black hover:text-black">
-        <button @click="toggleModal" class="hover:bg-black hover:text-pink py-3 px-3 mx-2 rounded-md text-darkgray text-xl font-bold">
+        <button @click="toggleModal" class="hover:bg-black hover:text-pink py-3 px-3 mx-2 rounded-md text-darkgray text-xl font-bold uppercase">
           Add Product
         </button>
       </router-link>
@@ -12,20 +12,20 @@
     </add-product>
     <div v-if="showModal" class="show-modal"></div>
  
-    <div class="grid md:grid-cols-3 sm:grid-cols-1 text-left justify-items-center  ">  
+    <div class="grid md:grid-cols-3 sm:grid-cols-1 text-justify  font-semibold font-sans text-xl justify-items-center">  
       <div v-for="p in product" :key="p.productId" :id="p.productId" class="mx-10 text-sm ">
-        <div class="piece rounded-md">
+        <div class="piece rounded-md relative">
         
         <img class="pic" :src="getProductImage(p.productImg)"/>
         <p class="mt-3">{{"Name: "+ p.productName }}</p>
       
-        <p>{{"Description: "+ p.productDescription }}</p>
+        <p class="mt-1">{{"Description: "+ p.productDescription }}</p>
 
-        <p>{{"Type: "+ p.productType}}</p>
+        <p class="mt-1">{{"Type: "+ p.productType}}</p>
 
-        <p>{{"Size: "+ p.productSize }}</p>
+        <p class="mt-1">{{"Size: "+ p.productSize }}</p>
 
-        <p class="mb-3">{{"Brand: "+ p.brands.brandName }}</p>
+        <p class="mt-1 mb-1">{{"Brand: "+ p.brands.brandName }}</p>
         
         <div class="colorFormat">
         <div class="color rounded" v-for="color in p.colors" 
@@ -35,14 +35,13 @@
 
         <p>{{"Date: "+ p.productDate}}</p>
 
-        <p>{{"Price: "+ p.productPrice }}</p>
+        <p class="mt-1">{{"Price: "+ p.productPrice }}</p>
 
-      <div >
-        <button class="bg-black hover:bg-lavender py-1 px-3 rounded-md text-white " @click="openEditModal">
+      <div class="absolute bottom-0 right-0 pb-4 pr-3">
+        <button class="bg-black hover:bg-lavender py-2 px-3 mx-2 rounded-md text-white uppercase" @click="openEditModal">
                 Edit
         </button>
-
-        <button class="bg-black hover:bg-rose py-1 px-3 mx-2 rounded-md text-white" @click="deleteProduct(p.productId)">
+        <button class="bg-black hover:bg-rose py-2 px-3 mx-2 rounded-md text-white uppercase" @click="deleteProduct(p.productId)">
                 Delete
         </button>
         </div>
@@ -96,8 +95,8 @@ export default {
       })
     },
     getProductImage(productImg){
-      // return "http://localhost:9000/image/"+productImg;
-      return "http://40.65.142.182/backend/image/"+productImg;
+      return "http://localhost:9000/image/"+productImg;
+      // return "http://40.65.142.182/backend/image/"+productImg;
     },
     refreshList() {
       this.retrieveProduct();
@@ -128,11 +127,11 @@ export default {
   height: 20px;
   margin-right: 10px;
   border-radius: 0px;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
 }
 .piece {
     width: 400px;
-    height: 640px;
+    height: 550px;
     border: 1px solid #F9BEC7;
     padding: 20px;
     margin-bottom: 20px;

@@ -1,5 +1,5 @@
 <template>
-  <div id="nav" class="bg-black relative select-none bg-grey md:flex md:items-stretch w-full">
+  <div id="nav" class="bg-black font-sans relative select-none bg-grey md:flex md:items-stretch w-full">
     <router-link to="/">
       <img class="ml-4 w-24 h-12 mt-2" alt="logo" src="./assets/logo.png" />
     </router-link>

@@ -17,7 +17,7 @@
                         <p id="product-quantity" class="mb-0">
                             Quantity :
                         </p>
-                        <button class="absolute bottom-0 right-0 uppercae text-center font-bold text-white py-2 px-3 mx-2 rounded-md bg-red-600">
+                        <button class="absolute bottom-0 right-0 uppercae text-center font-sans text-white py-2 px-3 mx-2 rounded-md bg-red-600 hover:bg-red-700">
                             Delete
                         </button>
                     </div>

@@ -28,7 +28,7 @@
     </div> 
   </div>
   <router-view/>
-  <footer class="bg-black mt-12">
+  <footer class="bg-black mt-12 ">
      <div class="container flex flex-col justify-center p-10 mx-auto md:items-center lg:items-start md:flex-row md:flex-no-wrap">
       <div class="flex flex-wrap flex-grow mt-10 -mb-10 text-left md:pl-20 md:mt-0 md:text-left">
         <div class="w-full lg:w-1/4 md:w-1/2">

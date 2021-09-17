@@ -1,6 +1,6 @@
 <template>
-  <div class=" w-full  md:overflow-hidden">
-    <div class="text-base px-5 pt-4 md:flex md:items-stretch md:justify-end ">
+  <div class=" w-full text-base font-sans text-black md:overflow-hidden">
+    <div class=" px-5 pt-4 md:flex md:items-stretch md:justify-end ">
       <router-link to="/manage-product" class="text-black hover:text-black">
         <button @click="toggleModal" class="hover:bg-black hover:text-pink py-3 px-3 mx-2 rounded-md text-darkgray text-xl font-bold uppercase">
           Add Product
@@ -12,7 +12,7 @@
     </add-product>
     <div v-if="showModal" class="show-modal"></div>
  
-    <div class="grid md:grid-cols-3 sm:grid-cols-1 text-justify  font-semibold font-sans text-xl justify-items-center">  
+    <div class="grid md:grid-cols-3 sm:grid-cols-1 text-justify justify-items-center">  
       <div v-for="p in product" :key="p.productId" :id="p.productId" class="mx-10 text-sm ">
         <div class="piece rounded-md relative">
         

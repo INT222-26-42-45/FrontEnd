@@ -1,3 +1,4 @@
+  
 <template>
   <div class="container text-base font-sans text-black mx-auto">
     <div class="flex justify-center mt-4 ">
@@ -18,11 +19,30 @@
           <div class="text-left p-2">
             <p class="mt-3">{{"Name: "+ p.productName }}</p>
             <p>{{"Type: "+ p.productType}}</p>
-            <p>{{"Price: "+ p.productPrice }}</p>
-            <div class="pb-8">
-              <router-link to="/list-product">
-                <button @click="toggleDetail" class="absolute bottom-2 right-0 uppercae text-center font-sans text-white py-2 px-2 mx-2 rounded-md bg-black hover:bg-pink">
-                  see more
+            <p>{{"Price: "+ p.productPrice }} THB</p>
+            <div>
+              <label>Select Color: </label>
+                <div class="colorFormat">
+                  <div v-for="color in p.colors" :key="color.colorId">
+                    <input type="checkbox" class="mx-2" v-model="selectColor" :value="color"/>
+                    <div class="w-6 h-6 rounded-md mx-1 border border-gray-500" :style="{ background: color.colorName }"></div>
+                  </div>
+                </div>
+            </div>
+            <div class="mt-2">
+              <label>Input Size: </label>
+                <input  type="text" id="productSize" name="productSize"
+                        class="rounded-sm border border-gray-600 w-20 px-2 py-1"/>
+            </div>
+            <div class="mt-2">
+              <label id="quant">Quantity: </label>
+                <input  type="number" name="quantity"
+                        class="rounded-sm border border-gray-600 w-20 px-2 py-1"/>
+            </div>
+            <div class="pb-8 pt-4">
+              <router-link to="/cart">
+                <button @click="addToCart(this.id)" class="absolute bottom-2 right-0 uppercase text-sm text-center font-sans text-white py-2 px-2 mx-2 rounded-md bg-black hover:bg-pink">
+                  add to cart
                 </button>
               </router-link>
             </div>
@@ -33,48 +53,81 @@
     <div class="md:grid-cols-4">
         <router-view @show="refreshList()" ></router-view>
     </div>
-    <product-detail v-if="showDetail" @closed="toggleDetail"></product-detail>
-    <div v-if="showDetail" class="show-modal"></div>
   </div>
 </template>
 
 <script>
 import ProductService from '../service/ProductService';
 import SearchProduct from '../components/SearchProduct.vue';
-import ProductDetail from '../components/ProductDetail.vue';
+import axios from 'axios';
+
 export default {
     components: {
-      SearchProduct,  
-      ProductDetail
+      SearchProduct
     },
     data(){
-    return {
-      product: [],
-      showDetail: false
-
-    };
+      return {
+        product: {},
+        id: null,
+        token: null,
+        quantity: 1
+      };
     },
+    props: ["products", "baseURL"],
     methods: {
-    toggleDetail: function(){
-      this.showDetail = !this.showDetail;
-    },
-    retrieveProduct() {
+      addToCart(productId){
+        axios.post(`${this.baseURL}cart/add?token=${this.token}`,{
+          productId : productId,
+          quantity : this.quantity
+        }).then((response) => {
+        if(response.status==201){
+          this.$swal({
+            text: "Product Added to the cart!",
+            icon: "success",
+            closeOnClick: false,
+          });
+        }
+        },(error) =>{
+          console.log(error)
+        });
+      },
+      listCartItems(){
+        axios.get(`${this.baseURL}cart/?token=${this.token}`).then((response) => {
+          if(response.status===200){
+            this.$router.push('/cart')
+          }
+        },(error)=>{
+          console.log(error)
+        });
+      },
+      retrieveProduct() {
         ProductService.get("/product")
             .then(response => {
                 this.product = response.data;
         })
-    },
-    getProductImage(productImg){
-      return "http://localhost:9000/image/"+productImg;
-      // return "http://40.65.142.182/backend/image/"+productImg;
-    },
-    refreshList() {
-      this.retrieveProduct();
-    },
+      },
+      getProductImage(productImg){
+        return "http://localhost:9000/image/"+productImg;
+        // return "http://40.65.142.182/backend/image/"+productImg;
+      },
+      refreshList() {
+        this.retrieveProduct();
+      },
     },
     created() {
     this.retrieveProduct();  
-  },
+    },
+    mounted() {
+    this.id = this.$route.params.id;
+    // this.product = this.products.find(product => product.id == this.id);
+    this.token = localStorage.getItem('token');
+  }
 };
-
 </script>
+
+<style>
+  .colorFormat {
+    display: flex;
+    width: 100%;
+  }
+</style>

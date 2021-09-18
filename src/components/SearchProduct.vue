@@ -14,7 +14,7 @@
 
 <script>
 export default {
-  name: "add-product",
+  name: "search-product",
   emits: ["status-search", "box-search"],
     data(){
       return{

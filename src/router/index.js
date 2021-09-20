@@ -5,10 +5,17 @@ import ManageProduct from '../views/ManageProduct.vue'
 import Cart from '../views/Cart.vue'
 import Profile from '../views/Profile.vue'
 import Login from '../views/Login.vue'
+import Register from '../views/Register.vue'
 
 const routes = [
+  
   {
     path: '/',
+    name: 'Login',
+    component: Login
+  },
+  {
+    path: '/home',
     name: 'Home',
     component: Home
   },
@@ -36,12 +43,11 @@ const routes = [
     name: 'Profile',
     component: Profile
   },
-
   {
-    path: '/login',
-    name: 'Login',
-    component: Login
-  },
+    path: '/register',
+    name: 'Register',
+    component: Register
+  }
 
 ]
 

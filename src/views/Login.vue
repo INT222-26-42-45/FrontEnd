@@ -27,10 +27,55 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
   name: 'Login',
-  components: {
-    
+  props: ["baseURL"],
+  data() {
+      return {
+          email: null,
+          password: null,
+          loading: null
+      }
+  },
+  methods: {
+      async signin(l) {
+          l.preventDefault();
+          this.loading = true;
+
+          const user = {
+              email: this.email,
+              password: this.password
+          }
+
+          await axios({
+              method: 'post',
+              url: this.baseURL + "user/signIn",
+              data: JSON.stringify(user),
+              headers: {
+                  'Content-Type': 'application/json'
+              }
+          })
+          .then(res => {
+              localStorage.setItem('token', res.data.token);
+              this.$emit("refreshNav");
+              this.$router.back();
+          })
+          .catch(err => {
+              this.$swal({
+                  text: "Unable to Log in!",
+                  icon: "error",
+                  closeOnClickOutside: false,
+              });
+              console.log(err);
+          })
+          .finally(() => {
+              this.loading = false;
+          })
+      }
+  },
+  mounted() {
+      this.loading = false;
   }
 }
 </script>

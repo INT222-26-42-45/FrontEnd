@@ -82,9 +82,9 @@ export default {
         }).then((response) => {
         if(response.status==201){
           this.$swal({
-            text: "Product Added to the cart!",
+            text: "Product added to the cart!",
             icon: "success",
-            closeOnClick: false,
+            closeOnClickOutside: false,
           });
         }
         },(error) =>{

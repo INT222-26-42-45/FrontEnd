@@ -3,7 +3,7 @@
         <div class="overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none flex justify-center items-center mb-4">
             <div class=" h-96 border-0 rounded-md shadow-lg flex flex-col lg:w-3/4 md:w-1/2 bg-darkgray outline-none focus:outline-none">
                 <div class="flex justify-end">
-                    <button class="close" type="button" @click="closeModal" > X </button>
+                    <button class="close text-white" type="button" @click="closeModal" > X </button>
                 </div>
                 <div class="pt-3 flex justify-center md:justify-center">
                     <h3 class="text-3xl uppercase text-white">skór</h3>
@@ -11,7 +11,7 @@
 
                 <div class=" bg-darkgray rounded-md px-4">
                     <form @submit.prevent="productForm">
-                        <div class="flex flex-row justify-around mt-2 space-x-5 md:flex-col">
+                        <div class="flex flex-row justify-around mt-2 space-x-5">
                             <div class="mt-2 w-2/5 space-y-2">
                                 <div>
                                     <label class="label">Product name: </label>

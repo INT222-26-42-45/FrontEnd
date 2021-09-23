@@ -53,8 +53,8 @@
   </div>
   </div>
 
-  <edit-product v-if="editClicked" @close="changeEditItemClicked" @save-product="editProduct">
-  </edit-product>
+  <add-product v-if="editClicked" @close="changeEditItemClicked" @save-product="editProduct">
+  </add-product>
   <div v-if="editClicked" class="show-modal"></div>
  
 </template>
@@ -62,11 +62,9 @@
 <script>
 import ProductService from '../service/ProductService';
 import AddProduct from '../components/AddProduct.vue';
-import EditProduct from '../components/EditProduct.vue';
 export default {
   components: {
-    AddProduct,
-    EditProduct
+    AddProduct
   },
   props: ["productId"],
   data(){

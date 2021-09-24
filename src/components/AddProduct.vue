@@ -9,10 +9,10 @@
                     <h3 class="text-3xl uppercase text-white">skór</h3>
                 </div>
 
-                <div class=" bg-darkgray rounded-md px-4">
+                <div class=" bg-darkgray rounded-md px-4 ">
                     <form @submit.prevent="productForm">
-                        <div class="flex flex-row justify-around mt-2 space-x-5">
-                            <div class="mt-2 w-2/5 space-y-2">
+                        <div class="lg:flex lg:flex-row justify-around mt-2 space-x-5 sm:flex-col">
+                            <div class="mt-2 w-2/5 space-y-2 ">
                                 <div>
                                     <label class="label">Product name: </label>
                                     <input  type="text" id="productName" name="productName"
@@ -44,7 +44,7 @@
                                     <p v-if="invalidProductDate" class="error">"Please enter product date"</p>
                                 </div>
                             </div>
-                            <div class="mt-2 w-3/5 space-y-1">
+                            <div class="mt-2 w-3/5 space-y-1 ">
                                 <div>
                                     <label class="label">Description: </label>
                                     <textarea rows="4" cols="50" type="text" id="productDescription" name="productDescription"
@@ -96,7 +96,7 @@ import imageUpload from "../assets/imageupload.png";
 import ProductService from '../service/ProductService.js';
 export default {
     name: "add-product",
-    props: ["imageDb", ],
+    props: ["imageDb"],
     emits: ["close", "save-product"],
     data() {
         return {
@@ -122,10 +122,7 @@ export default {
             invalidColors: false,
             selectBrand: null,
             selectColor: [],
-            image: null,
-            submitEdit: null,
-            productId: '',
-            isEdit: false
+            image: null
         }
     },
     methods: {
@@ -141,42 +138,9 @@ export default {
             console.log(this.selectColor);
             if(this.invalidProductName || this.invalidProductType || this.invalidProductPrice ||this.invalidProductSize ||
             this.invalidProductDate || this.invalidProductDescription || this.invalidBrands || this.invalidColors ) {
-                if (this.isEdit){
-                    this.updateProduct({
-                        productId: this.productId,
-                        productName: this.productName,
-                        productDescription: this.productDescription,
-                        productType: this.productType,
-                        productSize: this.productSize,
-                        productPrice: this.productPrice,
-                        productDate: this.productDate,
-                        productImg: this.productImg,
-                        colors: this.colors,
-                        brands: this.brands
-                    })
-                } else {
-                    this.addProduct({
-                        productName: this.productName,
-                        productDescription: this.productDescription,
-                        productType: this.productType,
-                        productSize: this.productSize,
-                        productPrice: this.productPrice,
-                        productDate: this.productDate,
-                        productImg: this.productImg,
-                        colors: this.colors,
-                        brands: this.brands
-                    })
-                }
+                return;
             }
-            this.productName='',
-            this.productDescription='',
-            this.productType='',
-            this.productPrice='',
-            this.productDate='',
-            this.productSize='',
-            this.productImg='',
-            this.colors='',
-            this.brands=''
+            this.addProduct();
             },
         addProduct() {
             const formData = new FormData();
@@ -208,37 +172,6 @@ export default {
             }).catch(error => {
             let errorObject=JSON.parse(JSON.stringify(error));
             console.log(errorObject);
-            })     
-        },
-        updateProduct(update) {
-            const formData = new FormData();
-            this.productId = update.productId;
-            let edit = {
-                productId: this.productId,
-                productName: this.productName,
-                productType: this.productType,
-                productSize: this.productSize,
-                productPrice: this.productPrice,
-                productDate: this.productDate,
-                productImg: this.productImg,
-                productDescription: this.productDescription,
-                brands: this.selectBrand,
-                colors: this.selectColor
-            }
-            const productData = JSON.stringify(edit);
-            const blob = new Blob([productData], {
-                type: 'application/json'
-            });
-            
-            formData.append('file', this.imageFile);
-            formData.append('newProduct', blob);
-            
-            ProductService.put("/edit/"+ this.productId, formData, {
-                headers: {
-                    'Content-Type' : 'multipart/form-data'
-                }
-            }).then(response => {
-                response.status === 200 ? alert("Edit") : alert("Error")
             })
         },
         closeModal(){
@@ -266,20 +199,6 @@ export default {
                 this.colors = response.data;
             })
         },
-        editProduct(product) {
-            this.isEdit = true,
-            this.productId = product.productId
-            this.productName = product.productName;
-            this.productPrice = product.productPrice;
-            this.productType = product.productType;
-            this.productSize = product.productSize;
-            this.productPrice = product.productPrice;
-            this.productDate = product.productDate;
-            this.productDescription = product.productDescription;
-            this.selectBrand = product.brands;
-            this.selectColor = product.colors;
-            this.submitEdit = product;
-      }
 },
     created() {
     this.listBrand();
@@ -287,9 +206,3 @@ export default {
     }
 };
 </script>
-
-<style>
-input[type=checkbox]:checked{
-    background-color: white;
-}
-</style>

@@ -1,4 +1,4 @@
-import axios from "axios";
+ import axios from "axios";
 
 // const API_URL = "http://localhost:9000";
 
@@ -12,10 +12,10 @@ import axios from "axios";
 
 // export default new ProductService();
 
-export default axios.create({
-    baseURL: "http://localhost:9000",
-    // baseURL: "http://40.65.142.182/backend",
-    headers: {
-        "Content-type": "application/json",
-    }
-});
+ export default axios.create({
+    //  baseURL: "http://localhost:9000",
+     baseURL: "http://52.230.37.169/backend",
+       headers: {
+         "Content-type": "application/json",
+     }
+ });

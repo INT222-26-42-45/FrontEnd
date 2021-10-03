@@ -1,4 +1,3 @@
-  
 <template>
   <div class="container text-base font-sans text-black mx-auto">
     <!-- <div class="flex justify-center mt-4 ">

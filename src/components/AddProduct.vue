@@ -140,7 +140,6 @@ export default {
             this.invalidProductDate || this.invalidProductDescription || this.invalidBrands || this.invalidColors ) {
                 return;
             }
-
             this.addProduct();
             },
         addProduct() {

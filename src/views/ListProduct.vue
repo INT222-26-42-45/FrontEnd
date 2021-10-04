@@ -112,7 +112,7 @@ export default {
 
       getProductImage(productImg){
         console.log(productImg);
-        axios.get("http://52.230.37.169/backend/image/"+productImg , {
+        axios.get("http://52.230.37.169:9000/image/"+productImg , {
         // axios.get("http://localhost:9000/image/"+productImg , {
            headers: AuthenHeader(),
            responseType: "blob"

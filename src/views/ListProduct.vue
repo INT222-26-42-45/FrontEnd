@@ -1,6 +1,6 @@
 <template>
   <div class="container text-base font-sans text-black mx-auto">
-    <div class="flex justify-center mt-4 ">
+    <!-- <div class="flex justify-center mt-4 ">
       <div>
         <search-product @box-search="box_search" @status-search="statusSearch" v-show="search"></search-product>
         <button @click="statusSearch" v-show="!search">
@@ -9,7 +9,7 @@
       </div>
       <div>      
       </div>
-    </div>   
+    </div>    -->
     
     <div class="grid md:grid-cols-4 sm:grid-cols-1 text-left justify-items-center">
       <div v-for="p in product" :key="p.productId" :id="p.productId" class="w-full p-1 md:p-2">
@@ -57,55 +57,68 @@
 
 <script>
 import ProductService from '../service/ProductService';
-import SearchProduct from '../components/SearchProduct.vue';
+// import SearchProduct from '../components/SearchProduct.vue';
+import AuthenHeader from '../service/AuthenHeader';
 import axios from 'axios';
 export default {
-    components: {
-      SearchProduct
-    },
+    // components: {
+    //   SearchProduct
+    // },
     data(){
       return {
         product: {},
         id: null,
-        token: null,
         quantity: 1
       };
     },
     props: ["products", "baseURL"],
     methods: {
-      addToCart(productId){
-        axios.post(`${this.baseURL}cart/add?token=${this.token}`,{
-          productId : productId,
-          quantity : this.quantity
-        }).then((response) => {
-        if(response.status==201){
-          this.$swal({
-            text: "Product added to the cart!",
-            icon: "success",
-            closeOnClickOutside: false,
-          });
-        }
-        },(error) =>{
-          console.log(error)
-        });
-      },
-      listCartItems(){
-        axios.get(`${this.baseURL}cart/?token=${this.token}`).then((response) => {
-          if(response.status===200){
-            this.$router.push('/cart')
-          }
-        },(error)=>{
-          console.log(error)
-        });
-      },
+      // addToCart(productId){
+      //   axios.post(`${this.baseURL}cart/add?token=${this.token}`,{
+      //     productId : productId,
+      //     quantity : this.quantity
+      //   }).then((response) => {
+      //   if(response.status==201){
+      //     this.$swal({
+      //       text: "Product added to the cart!",
+      //       icon: "success",
+      //       closeOnClickOutside: false,
+      //     });
+      //   }
+      //   },(error) =>{
+      //     console.log(error)
+      //   });
+      // },
+      // listCartItems(){
+      //   axios.get(`${this.baseURL}cart/?token=${this.token}`).then((response) => {
+      //     if(response.status===200){
+      //       this.$router.push('/cart')
+      //     }
+      //   },(error)=>{
+      //     console.log(error)
+      //   });
+      // },
       retrieveProduct() {
-        ProductService.get("/product")
+        ProductService.get("/product" , {
+           headers: AuthenHeader()
+        })
             .then(response => {
                 this.product = response.data;
         })
       },
       getProductImage(productImg){
-        return "http://localhost:9000/image/"+productImg;
+        console.log(productImg);
+        axios.get("http://52.230.37.169:9000/image/"+productImg , {
+        // axios.get("http://localhost:9000/image/"+productImg , {
+           headers: AuthenHeader(),
+           responseType: "blob"
+        }).then((response) => {
+           this.productImg = response.data;
+           console.log(response.data)
+           return response.data
+      })
+       
+      // return "http://localhost:9000/image/"+productImg ;
         // return "http://40.65.142.182/backend/image/"+productImg;
       },
       refreshList() {
@@ -115,11 +128,11 @@ export default {
     created() {
     this.retrieveProduct();  
     },
-    mounted() {
-    this.id = this.$route.params.id;
-    // this.product = this.products.find(product => product.id == this.id);
-    this.token = localStorage.getItem('token');
-  }
+  //   mounted() {
+  // //   this.id = this.$route.params.id;
+  // //   // this.product = this.products.find(product => product.id == this.id);
+  //     localStorage.getItem('users');
+  // }
 };
 </script>
 

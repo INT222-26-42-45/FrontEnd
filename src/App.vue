@@ -12,18 +12,26 @@
         <div class="flex-no-grow flex-no-shrink py-2 px-4 leading-normal text-white no-underline flex items-center">
           <router-link to="/list-product">LIST PRODUCT</router-link>
         </div>
-        <div class="flex-no-grow flex-no-shrink py-2 px-4 leading-normal text-white no-underline flex items-center"> 
+        <!-- <div class="flex-no-grow flex-no-shrink py-2 px-4 leading-normal text-white no-underline flex items-center"> 
           <router-link to="/manage-product">MANAGE PRODUCT</router-link>
         </div>
         <div class="flex-no-grow flex-no-shrink py-2 px-4 leading-normal text-white no-underline flex items-center"> 
           <router-link to="/cart">CART</router-link>
-        </div>
-        <div class="flex-no-grow flex-no-shrink py-2 px-4 leading-normal text-white no-underline flex items-center"> 
+        </div> -->
+        <!-- <div class="flex-no-grow flex-no-shrink py-2 px-4 leading-normal text-white no-underline flex items-center"> 
           <router-link to="/profile">PROFILE</router-link>
+        </div> -->
+        
+        <div v-if="currentUser" class="flex-no-grow flex-no-shrink py-2 px-4 leading-normal text-white no-underline flex items-center">
+          <div class="flex-no-grow flex-no-shrink py-2 pr-4 leading-normal text-white no-underline flex items-center"> 
+          <font-awesome-icon icon="user" class="mr-3"/>
+          <router-link to="/profile" >{{ currentUser.username }}</router-link>
+          </div>
+        <button class="flex-no-grow flex-no-shrink py-2 px-4 leading-normal text-white no-underline flex items-center " @click.prevent="logOut">
+          <font-awesome-icon icon="sign-out-alt" class="mr-2"/>LOG OUT
+        </button>
         </div>
-        <div class="flex-no-grow flex-no-shrink py-2 px-4 leading-normal text-white no-underline flex items-center"> 
-          <router-link to="/">LOG OUT</router-link>
-        </div>
+      
       </div>
     </div> 
   </div>
@@ -107,7 +115,21 @@
     </div>         
   </footer>
 </template>
-
+<script>
+export default {
+  computed: {
+    currentUser() {
+      return this.$store.state.auth.users;
+    },
+  },
+  methods: {
+    logOut() {
+      this.$store.dispatch('auth/logout');
+      this.$router.push('/');
+    }
+  }
+};
+</script>
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
@@ -116,12 +138,10 @@
   text-align: center;
   color: #2c3e50;
 }
-
 #nav {
   padding: 18px;
   font-size: 20px;
 }
-
 #nav a {
   font-weight: bold;
   color: #ffffff;
@@ -129,5 +149,4 @@
 #nav a.router-link-exact-active {
   color: #FF008C;
 }
-
 </style>

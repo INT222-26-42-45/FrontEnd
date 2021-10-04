@@ -3,27 +3,23 @@
         <div class=" w-2/5 mt-8 ml-24">
             <div class="border bg-white bg-opacity-30 rounded-lg w-5/6 h-auto">
                 <p class="uppercase font-sans text-center text-xl font-bold mt-4">register</p>
-                <form  @submit="signup" class="space-y-1 text-left p-4">
+                <form  @submit.prevent="signUp(firstname,lastname,birth,gender,email,tel,username,password)" class="space-y-1 text-left p-4">
+                     <div v-if="!successful">
                     <div class="flex flex-col">
                         <label class="labelsign">Firstname: </label>
                         <input v-model="firstname" type="text" class="inputsign" required>
                     </div>
+
                     <div class="flex flex-col">
                         <label class="labelsign">Lastname: </label>
                         <input v-model="lastname" type="text" class="inputsign" required>
                     </div> 
-                    <div class="flex flex-col">
-                        <label class="labelsign">Email: </label>
-                        <input v-model="email" type="email" class="inputsign" required>
-                    </div>
-                    <div class="flex flex-col">
-                        <label class="labelsign">Telephone: </label>
-                        <input v-model="telephone" type="text" class="inputsign" required>
-                    </div>
+
                     <div class="flex flex-col"> 
                         <label class="labelsign">Date of Birth: </label>
-                        <input v-model="dob"  type="Date" class="inputsign" required>
+                        <input v-model="birth"  type="Date" class="inputsign" required>
                     </div>
+
                     <div class="flex flex-col">
                         <label class="labelsign">Gender:</label>
                         <div class="flex flex-row pt-2 space-x-2">
@@ -33,26 +29,50 @@
                             <label for="Female" class="labelsign">Female</label>
                         </div>
                     </div>
+
+                    <div class="flex flex-col">
+                        <label class="labelsign">Email: </label>
+                        <input v-model="email" type="email" class="inputsign" required>
+                    </div>
+
+                    <div class="flex flex-col">
+                        <label class="labelsign">Telephone: </label>
+                        <input v-model="tel" type="text" class="inputsign" required>
+                    </div>
+
                     <div class="flex flex-col">
                         <label class="labelsign">Username: </label>
                         <input v-model="username" type="text" class="inputsign" required>
                     </div>
+
                     <div class="flex flex-col">
                         <label class="labelsign">Password: </label>
                         <input v-model="password" type="password" class="inputsign" required>
                     </div>
-                    <div class="flex flex-col">
+                    <!-- <div class="flex flex-col">
                         <label class="labelsign">Confirm Password: </label>
                         <input v-model="passwordConfirm" type="password" class="inputsign" required>
-                    </div>
+                    </div> -->
                     <div class="flex justify-center pt-2">
-                        <button type="submit" class="font-sans text-lg font-medium uppercase bottom-0 text-center text-white py-2 w-72 bg-black hover:bg-pink">
+                        <button type="submit" class="font-sans text-lg font-medium uppercase bottom-0 text-center text-white py-2 w-72 bg-black hover:bg-pink" :disabled="loading">
+                            <span
+                            v-show="loading"
+                            class="spinner-border spinner-border-sm"
+                            ></span>
                             create account
                         </button>
                     </div>
 
                     <p class="labelsign text-center underline hover:text-pink"><router-link to="/">Sign In Here</router-link></p>
+                     </div>
                 </form>
+                    <div
+                        v-if="message"
+                        class="alert"
+                        :class="successful ? 'alert-success' : 'alert-danger'"
+                     >
+                        {{ message }}
+                    </div>
             </div>
         </div>
 
@@ -63,65 +83,60 @@
 </template>
 
 <script>
-import axios from 'axios';
+// import axios from 'axios';
 export default {
   name: 'Register',
-  props: ["baseURL"],
+//   props: ["baseURL"],
   data() {
       return {
-          firstname: null,
-          lastname: null,
-          email: null,
-          telephone: null,
-          dob: null,
-          gender: null,
-          username: null,
-          password: null,
-          passwordConfirm: null
+        firstname: "",
+        lastname: "",
+        birth: null,
+        gender: "",
+        email: "",
+        tel: "",
+        username: "",
+        password: "",
+        successful: false,
+        loading: false,
+        message: ""
+      }
+  },
+  computed: {
+      loggedIn() {
+          return this.$store.state.auth.status.loggedIn;
+      },
+  },
+  mounted(){
+      if (this.loggedIn) {
+          this.$router.push('/');
       }
   },
   methods: {
-      async signup(r) {
-          r.preventDefault();
-          if(this.password == this.passwordConfirm) {
-              const user = {
-                  firstname: this.firstname,
-                  lastname: this.lastname,
-                  email: this.email,
-                  telephone: this.telephone,
-                  dob: this.dob,
-                  gender: this.gender,
-                  username: this.username,
-                  password: this.password
+      signUp(firstname,lastname,birth,gender,email,tel,username,password) {
+          const users = {firstname:firstname,lastname:lastname,birth:birth,gender:gender,email:email,tel:tel,username:username,password:password}
+          this.message = "";
+          this.successful = false;
+          this.loading = true;
+          this.$store.dispatch("auth/register", users).then(
+              (data) => {
+                  this.message = data.message;
+                  this.successful = true;
+                  this.loading = false;
+                  this.$router.push('/');
+              },
+              (error) => {
+                  this.message = 
+                  (error.response &&
+                  error.response.data &&
+                  error.response.data.message) ||
+                  error.message ||
+                  error.toString();
+                  this.successful = false;
+                  this.loading = false;
               }
-
-              await axios({
-                  method: 'post',
-                  url: this.baseURL + "user/signUp",
-                  data: JSON.stringify(user),
-                  headers: {
-                      'Content-Type': 'application'
-                  }
-              })
-              .then(() => {
-                this.$router.replace("/");
-                this.$swal({
-                    text: "User signup successful. Please Login",
-                    icon: "success",
-                    closeOnClickOutside: false,
-                });
-              })
-              .catch(err => {
-                  console.log(err);
-              });
-          } else {
-              this.$swal({
-                  text: "Error! Passwords are not matching",
-                  icon: "error",
-                  closeOnClickOutside: false,
-              });
-          }
-      }
+          );
+      },
   }
 }
 </script>

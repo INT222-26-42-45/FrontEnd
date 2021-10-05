@@ -8,7 +8,6 @@ class AuthenService {
         "password": users.password
     }));
     return axios.post("http://52.230.37.169:9000/auth/signin", data)
-    // return axios.post("http://52.230.37.169/backend/auth/signin", data)
     // return axios.post("http://localhost:9000/auth/signin", data)
         .then(response => {
             if (response.data.accessToken) {
@@ -34,7 +33,6 @@ register(users) {
       "password": users.password
     }));
     return axios.post("http://52.230.37.169:9000/auth/signup", data)
-    // return axios.post("http://52.230.37.169/backend/auth/signup", data)
     // return axios.post("http://localhost:9000/auth/signup", data)
     }
 

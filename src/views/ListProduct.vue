@@ -14,7 +14,7 @@
     <div class="grid md:grid-cols-4 sm:grid-cols-1 text-left justify-items-center">
       <div v-for="p in product" :key="p.productId" :id="p.productId" class="w-full p-1 md:p-2">
         <base-block class="relative">
-          <img class="object-cover w-full rounded-t-md border-gray-200 h-36 bg-gray-200" :src="getProductImage(p.productImg)" />
+          <img class="object-cover w-full rounded-t-md border-gray-200 h-36 bg-gray-200" :src="getProductImage(p.productImg)"/>
           <div class="text-left p-2">
             <p class="mt-3">{{"Name: "+ p.productName }}</p>
             <p>{{"Type: "+ p.productType}}</p>
@@ -59,7 +59,7 @@
 import ProductService from '../service/ProductService';
 // import SearchProduct from '../components/SearchProduct.vue';
 import AuthenHeader from '../service/AuthenHeader';
-import axios from 'axios';
+
 
 
 
@@ -111,20 +111,8 @@ export default {
       },
 
       getProductImage(productImg){
-        console.log(productImg);
-        axios.get("http://52.230.37.169:9000/image/"+productImg , {
-        // axios.get("http://localhost:9000/image/"+productImg , {
-           headers: AuthenHeader(),
-           responseType: "blob"
-        }).then((response) => {
-           this.productImg = response.data;
-           console.log(response.data)
-           return response.data
-      })
-       
-
-      // return "http://localhost:9000/image/"+productImg ;
-        // return "http://40.65.142.182/backend/image/"+productImg;
+      // return "http://localhost:9000/image/"+productImg  ;
+      return "http://52.230.37.169:9000/image/"+productImg;
       },
       refreshList() {
         this.retrieveProduct();
@@ -133,11 +121,6 @@ export default {
     created() {
     this.retrieveProduct();  
     },
-  //   mounted() {
-  // //   this.id = this.$route.params.id;
-  // //   // this.product = this.products.find(product => product.id == this.id);
-  //     localStorage.getItem('users');
-  // }
 };
 </script>
 

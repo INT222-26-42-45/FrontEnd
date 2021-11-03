@@ -42,15 +42,8 @@
 </template>
 
 <script>
-<<<<<<< HEAD
 export default {
   name: 'Login',
-=======
-
-export default {
-  name: 'Login',
-
->>>>>>> b1ce9f7037d5dbce2ec6d366cd7219932e1862bf
   data() {
       return {
           username: "",

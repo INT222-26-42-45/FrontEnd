@@ -12,16 +12,13 @@
         <div class="flex-no-grow flex-no-shrink py-2 px-4 leading-normal text-white no-underline flex items-center">
           <router-link to="/list-product">LIST PRODUCT</router-link>
         </div>
-        <!-- <div class="flex-no-grow flex-no-shrink py-2 px-4 leading-normal text-white no-underline flex items-center"> 
+        <div class="flex-no-grow flex-no-shrink py-2 px-4 leading-normal text-white no-underline flex items-center"> 
           <router-link to="/manage-product">MANAGE PRODUCT</router-link>
         </div>
-        <div class="flex-no-grow flex-no-shrink py-2 px-4 leading-normal text-white no-underline flex items-center"> 
-          <router-link to="/cart">CART</router-link>
-        </div> -->
         <!-- <div class="flex-no-grow flex-no-shrink py-2 px-4 leading-normal text-white no-underline flex items-center"> 
-          <router-link to="/profile">PROFILE</router-link>
-        </div> -->
-        
+          <router-link to="/cart">CART</router-link>
+        </div>  -->
+
         <div v-if="currentUser" class="flex-no-grow flex-no-shrink py-2 px-4 leading-normal text-white no-underline flex items-center">
           <div class="flex-no-grow flex-no-shrink py-2 pr-4 leading-normal text-white no-underline flex items-center"> 
           <font-awesome-icon icon="user" class="mr-3"/>

@@ -59,14 +59,10 @@
 import ProductService from '../service/ProductService';
 // import SearchProduct from '../components/SearchProduct.vue';
 import AuthenHeader from '../service/AuthenHeader';
-<<<<<<< HEAD
-import axios from 'axios';
-=======
 
 
 
 
->>>>>>> 590da342aa4134339e5fbe3291ffe81081c21979
 export default {
     // components: {
     //   SearchProduct

@@ -38,9 +38,10 @@
         <p class="mt-1">{{"Price: "+ p.productPrice }}</p>
 
       <div class="absolute bottom-0 right-0 pb-4 pr-3">
-        <button class="bg-black hover:bg-lavender py-2 px-3 mx-2 rounded-md text-white uppercase" @click="editProduct(product)">
+        <button class="bg-black hover:bg-lavender py-2 px-3 mx-2 rounded-md text-white uppercase" @click="editProduct(product)"
+                :class="{ show: editClicked == false }">
                 Edit
-                <!-- :class="{ show: editClicked == false }" -->
+                
         </button> 
         <button class="bg-black hover:bg-rose py-2 px-3 mx-2 rounded-md text-white uppercase" @click="deleteProduct(p.productId)">
                 Delete
@@ -250,7 +251,7 @@ export default {
       })
     },
     getProductImage(productImg){
-      return "http://localhost:8081/image/"+productImg;
+      return "http://localhost:9000/image/"+productImg;
       // return "http://40.65.142.182/backend/image/"+productImg;
     },
     selectPic(s) {
@@ -308,7 +309,7 @@ export default {
   //
 };
 </script>
-<style>
+<style scoped>
 .colorFormat {
   display: flex;
   width: 100%;
@@ -335,4 +336,7 @@ export default {
   margin: auto;
   display: block;
 }
+/* button {
+  @apply px-4 py-1.5 rounded;
+} */
 </style>

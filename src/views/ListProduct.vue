@@ -109,7 +109,6 @@ export default {
                 this.product = response.data;
         })
       },
-
       getProductImage(productImg){
       // return "http://localhost:9000/image/"+productImg  ;
       return "http://52.230.37.169:9000/image/"+productImg;

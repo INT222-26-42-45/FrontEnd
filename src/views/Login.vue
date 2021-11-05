@@ -42,10 +42,8 @@
 </template>
 
 <script>
-
 export default {
   name: 'Login',
-
   data() {
       return {
           username: "",
@@ -83,7 +81,6 @@ export default {
               }
           );
       },
-
   },
 };
 </script>

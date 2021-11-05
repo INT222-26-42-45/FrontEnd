@@ -44,4 +44,4 @@ jobs:
               sudo docker pull ghcr.io/int222-26-42-45/frontend
               sudo docker images
               sudo docker rm frontend -f
-              sudo docker run -p 80:80 -d --name frontend --network skorshopnetwork --ip 172.18.0.4 ghcr.io/int222-26-42-45/frontend
+              sudo docker run -d --name frontend --network skorshopnetwork --ip 172.18.0.4 ghcr.io/int222-26-42-45/frontend

@@ -60,9 +60,6 @@ import ProductService from '../service/ProductService';
 // import SearchProduct from '../components/SearchProduct.vue';
 import AuthenHeader from '../service/AuthenHeader';
 
-
-
-
 export default {
     // components: {
     //   SearchProduct

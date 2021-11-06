@@ -58,7 +58,6 @@
 <script>
 import ProductService from '../service/ProductService';
 // import SearchProduct from '../components/SearchProduct.vue';
-import AuthenHeader from '../service/AuthenHeader';
 
 export default {
     // components: {
@@ -98,17 +97,24 @@ export default {
       //     console.log(error)
       //   });
       // },
+      // retrieveProduct() {
+      //   ProductService.get("/product" , {
+      //      headers: AuthenHeader()
+      //   })
+      //       .then(response => {
+      //           this.product = response.data;
+      //   })
+      // },
       retrieveProduct() {
-        ProductService.get("/product" , {
-           headers: AuthenHeader()
-        })
-            .then(response => {
-                this.product = response.data;
-        })
+        ProductService.get("/product")
+          .then(response => {
+            this.product = response.data;
+          })
       },
       getProductImage(productImg){
       // return "http://localhost:9000/image/"+productImg  ;
-      return "http://52.230.37.169:9000/image/"+productImg;
+      // return "http://52.230.37.169:9000/image/"+productImg;
+      return "http://40.65.142.182/backend/image/"+productImg;
       },
       refreshList() {
         this.retrieveProduct();

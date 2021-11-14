@@ -1,0 +1,73 @@
+<template>
+    <div class="flex justify-center mt-8">
+            <div class="flex flex-row divide-x-2 divide-darkgray relative border shadow-lg bg-white pb-2 bg-opacity-30 rounded-lg w-2/3 h-auto">
+                <div>
+                    <p class="uppercase font-sans text-center text-xl font-bold mt-8">admin sign in</p>
+                    <form  @submit.prevent="signIn(username,password)" class="space-y-4 mt-6 mb-6">
+                        <input v-model="username" type="text"  class="inputsign px-3 py-2 w-72" placeholder="USERNAME" required>
+                        <input v-model="password" type="password"  class="inputsign px-3 py-2 w-72" placeholder="PASSWORD" required>
+                        <div>
+                            <button type="submit" class="font-sans text-lg font-medium uppercase bottom-0 text-center text-white py-2 w-72 bg-black hover:bg-pink" :disabled="loading">
+                                <span
+                                    v-show="loading"
+                                    class="spinner-border spinner-border-sm"
+                                ></span>
+                                <span>Log in</span>
+                            </button>
+                        </div>
+
+                            <div v-if="message" class="alert alert-danger" role="alert">
+                            {{ message }}
+                        </div>
+                    </form>
+                </div>
+                <div class="w-3/5 mt-2">
+                    <img class="w-auto h-5/6" src="../assets/Login.png" />
+                </div>
+            </div>
+    </div>
+</template>
+
+<script>
+export default {
+  name: 'Login',
+  data() {
+      return {
+          username: "",
+          password: "",
+          loading: false,
+          message: "",
+      };
+  },
+  computed: {
+    loggedIn() {
+      return this.$store.state.auth.status.loggedIn;
+    },
+  },
+  created() {
+      if (this.loggedIn) {
+          this.$router.push('/profile-admin');
+      }
+  },
+  methods: {
+      signIn(username,password) {
+          const users = {username:username,password:password}
+          this.loading = true;
+          this.$store.dispatch("auth/login", users).then(
+              () => {
+                  this.$router.push('/profile-admin');
+              },
+              (error) => {
+                  this.loading = false;
+                  this.message = 
+                    (error.response &&
+                    error.response.data &&
+                    error.response.data.message) ||
+                    error.message ||
+                    error.toString();
+              }
+          );
+      },
+  },
+};
+</script>

@@ -15,14 +15,17 @@
         <div class="flex-no-grow flex-no-shrink py-2 px-4 leading-normal text-white no-underline flex items-center"> 
           <router-link to="/manage-product">MANAGE PRODUCT</router-link>
         </div>
-        <!-- <div class="flex-no-grow flex-no-shrink py-2 px-4 leading-normal text-white no-underline flex items-center"> 
-          <router-link to="/cart">CART</router-link>
-        </div>  -->
-
+        <div class="flex-no-grow flex-no-shrink py-2 px-4 leading-normal text-white no-underline flex items-center"> 
+          <router-link to="/cart">
+            <font-awesome-icon icon="shopping-cart" class="mr-2"/>
+          </router-link>
+        </div> 
         <div v-if="currentUser" class="flex-no-grow flex-no-shrink py-2 px-4 leading-normal text-white no-underline flex items-center">
           <div class="flex-no-grow flex-no-shrink py-2 pr-4 leading-normal text-white no-underline flex items-center"> 
-          <font-awesome-icon icon="user" class="mr-3"/>
-          <router-link to="/profile" >{{ currentUser.username }}</router-link>
+            <router-link to="/profile" >
+              <font-awesome-icon icon="user" class="mr-3"/>
+                {{ currentUser.username }}
+            </router-link>
           </div>
         <button class="flex-no-grow flex-no-shrink py-2 px-4 leading-normal text-white no-underline flex items-center " @click.prevent="logOut">
           <font-awesome-icon icon="sign-out-alt" class="mr-2"/>LOG OUT

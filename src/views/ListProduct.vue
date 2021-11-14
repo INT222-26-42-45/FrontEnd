@@ -1,5 +1,5 @@
 <template>
-  <div class="container text-base font-sans text-black mx-auto">
+  <div class="w-full text-base font-sans text-black md:overflow-hidden">
     <!-- <div class="flex justify-center mt-4 ">
       <div>
         <search-product @box-search="box_search" @status-search="statusSearch" v-show="search"></search-product>
@@ -19,7 +19,7 @@
             <p class="mt-3">{{"Name: "+ p.productName }}</p>
             <p>{{"Type: "+ p.productType}}</p>
             <p>{{"Price: "+ p.productPrice }} THB</p>
-            <div>
+            <!-- <div>
               <label>Select Color: </label>
                 <div class="colorFormat">
                   <div v-for="color in p.colors" :key="color.colorId">
@@ -44,7 +44,15 @@
                   add to cart
                 </button>
               </router-link>
-            </div>
+            </div> -->
+          </div>
+          <div class="pb-8 pt-4">
+            <router-link to="/list-product">
+              <button @click="clickDetail" class="bottom-2 right-2 bg-black hover:text-pink py-2 w-32 rounded-md absolute text-white text-base uppercase"
+                      :class="{ show: openDetail == false }">
+                see more <font-awesome-icon icon="arrow-right" class="mr-2"/>
+              </button>
+            </router-link>
           </div>
         </base-block>
       </div>
@@ -52,6 +60,57 @@
     <div class="md:grid-cols-4">
         <router-view @show="refreshList()" ></router-view>
     </div>
+    <div v-if="openDetail" class="overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none flex justify-center items-center mb-4">
+            <div class="h-96 border-0 rounded-md shadow-lg flex flex-col lg:w-3/4 md:w-1/2 bg-white outline-none focus:outline-none">
+              <div class="flex justify-end">
+                <button class="close text-black" type="button" @click="closeModal" > X </button>
+              </div>
+              <div class="pt-3 flex justify-center md:justify-center">
+                <h3 class="text-3xl uppercase text-darkgray">product detail</h3>
+              </div>
+                <div class=" bg-white rounded-md px-4 pb-4">
+                  <form class="text-darkgray">
+                    <div class="lg:flex lg:flex-row justify-around mt-2 space-x-5 sm:flex-col">
+                        <div class="flex justify-center mt-2 w-3/5 space-y-1 rounded-md border-gray-200 bg-gray-200">
+                          <img class="object-cover w-auto lg:h-52 p-2" src="../assets/Airmax-90-4.png" />
+                        </div>
+                        <div class=" mt-2 w-2/5 space-y-2 ">
+                          <p class="text-xl text-left">Nike Air Max 90</p>
+                          <p class="text-lg text-left">Men/Women</p>
+                          <p class="text-lg text-left">Price: 3600</p>
+                          <div class="text-left">
+                            <label class="text-lg ">Color: </label>
+                              <div class="grid grid-cols-10 justify-items-start">
+                                <div v-for="color in colors" :key="color.colorId"  >
+                                  <input class="ml-2" type="checkbox" v-model="selectColor" :value="color" />
+                                  <div class="w-8 h-8 rounded-md border" :style="{ background: color.colorName }"></div>
+                                </div>
+                              </div>
+                              <p v-if="invalidColors" class="error">"Please select product color"</p>
+                          </div>
+                          <div class="w-20 h-10">
+                            <p class="text-lg text-left">Quantity:</p>
+                            <input type="number" value="1" 
+                              class="w-full rounded-sm text-center text-lg text-gray-700 bg-gray-200 outline-none focus:outline-none hover:text-black focus:text-black" />
+                          </div>
+                          <div class=" pt-6">
+                            <router-link to="/cart">
+                              <button class=" bg-black hover:text-pink py-2 w-4/5 rounded-md text-white text-base uppercase">
+                              add to cart <font-awesome-icon icon="shopping-cart" class="mr-2"/>
+                              </button>
+                            </router-link>
+                          </div>
+                        </div>
+                    </div>
+                    <div class="mt-6">
+                      <p class="text-xl font-semibold">Nike Air Max 90</p>
+                      <p class="text-lg text-justify">Designed for basketball in the 70s, glorified by hip-hop fans of the 80s, the adidas Superstar has become a must-have item for today street-dwellers. The world-famous seashell design retains the original style and protection of the basketball court, eliminating the worry of being hit by your feet at festivals or on the street. Maintain the original look with jagged 3-Stripes and the adidas Superstar logo in a square frame.</p>
+                    </div>
+                  </form>
+                </div>
+            </div>
+      </div>
+      <div v-if="openDetail" class="show-modal"></div>
   </div>
 </template>
 
@@ -60,18 +119,24 @@ import ProductService from '../service/ProductService';
 // import SearchProduct from '../components/SearchProduct.vue';
 
 export default {
-    // components: {
-    //   SearchProduct
-    // },
+    components: {
+    },
     data(){
       return {
         product: {},
-        id: null,
-        quantity: 1
+        openDetail: false,
       };
     },
-    props: ["products", "baseURL"],
     methods: {
+      openModalDetail(v){
+      this.openDetail = v;
+      },
+      closeModal(){
+      this.openDetail = false;
+      },
+      clickDetail(){
+        this.openDetail = true;
+      },
       // addToCart(productId){
       //   axios.post(`${this.baseURL}cart/add?token=${this.token}`,{
       //     productId : productId,
@@ -119,9 +184,15 @@ export default {
       refreshList() {
         this.retrieveProduct();
       },
+      listColor(){
+            ProductService.get("/color").then(response => {
+                this.colors = response.data;
+            })
+        },
     },
     created() {
-    this.retrieveProduct();  
+    this.retrieveProduct(); 
+    this.listColor(); 
     },
 };
 </script>

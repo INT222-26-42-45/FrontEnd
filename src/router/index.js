@@ -10,7 +10,6 @@ import Admin from '../views/Admin.vue'
 import LoginAdmin from '../views/LoginAdmin.vue'
 import User from '../views/User.vue'
 import BrandColor from '../views/BrandColor.vue'
-import ProductDetail from '../views/ProductDetail.vue'
 
 const routes = [
   
@@ -78,12 +77,6 @@ const routes = [
     name: 'BrandColor',
     component: BrandColor
   },
-
-  {
-    path: '/product-detail',
-    name: 'ProductDetail',
-    component: ProductDetail
-  }
 
 ]
 

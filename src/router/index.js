@@ -6,6 +6,10 @@ import Cart from '../views/Cart.vue'
 import Profile from '../views/Profile.vue'
 import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
+import Admin from '../views/Admin.vue'
+import LoginAdmin from '../views/LoginAdmin.vue'
+import User from '../views/User.vue'
+import BrandColor from '../views/BrandColor.vue'
 
 const routes = [
   
@@ -43,11 +47,36 @@ const routes = [
     name: 'Profile',
     component: Profile
   },
+
   {
     path: '/register',
     name: 'Register',
     component: Register
-  }
+  },
+
+  {
+    path: '/profile-admin',
+    name: 'Admin',
+    component: Admin
+  },
+
+  {
+    path: '/login-admin',
+    name: 'LoginAdmin',
+    component: LoginAdmin
+  },
+
+  {
+    path: '/user',
+    name: 'User',
+    component: User
+  },
+
+  {
+    path: '/brand-color',
+    name: 'BrandColor',
+    component: BrandColor
+  },
 
 ]
 

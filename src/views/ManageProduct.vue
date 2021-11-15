@@ -1,7 +1,7 @@
 <template>
   <div class=" w-full text-base font-sans text-black md:overflow-hidden">
     <div class=" px-5 pt-4 md:flex md:items-stretch md:justify-end ">
-      <router-link to="/manage-product" class="text-black hover:text-black">
+      <router-link to="/manage-product">
         <button @click="toggleModal" class="hover:bg-black hover:text-pink py-3 px-3 mx-2 rounded-md text-darkgray text-xl font-bold uppercase">
           Add Product
         </button>
@@ -37,22 +37,22 @@
 
         <p class="mt-1">{{"Price: "+ p.productPrice }}</p>
 
-      <div class="absolute bottom-0 right-0 pb-4 pr-3">
-        <button class="bg-black hover:bg-lavender py-2 px-3 mx-2 rounded-md text-white uppercase" @click="editProduct(product)"
-                :class="{ show: editClicked == false }">
-                Edit
-                
-        </button> 
-        <button class="bg-black hover:bg-rose py-2 px-3 mx-2 rounded-md text-white uppercase" @click="deleteProduct(p.productId)">
-                Delete
-        </button>
+        <div class="absolute bottom-0 right-0 pb-4 pr-3">
+          <button class="bg-black hover:bg-lavender py-2 px-3 mx-2 rounded-md text-white uppercase" @click="editProduct(product)"
+                  :class="{ show: editClicked == false }">
+                  Edit
+                  
+          </button> 
+          <button class="bg-black hover:bg-rose py-2 px-3 mx-2 rounded-md text-white uppercase" @click="deleteProduct(p.productId)">
+                  Delete
+          </button>
+          </div>
+          </div>
         </div>
-        </div>
-      </div>
- </div>
- <div class="md:grid-cols-3">
-    <router-view @show="refreshList()" ></router-view>
-  </div>
+    </div>
+    <div class="md:grid-cols-3">
+      <router-view @show="refreshList()" ></router-view>
+    </div>
   </div>
 
   <!-- <edit-product v-if="editClicked" @close="changeEditItemClicked" @save-product="editProduct">

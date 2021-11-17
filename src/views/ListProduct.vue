@@ -48,8 +48,7 @@
           </div>
           <div class="pb-8 pt-4">
             <router-link to="/list-product">
-              <button @click="clickDetail" class="bottom-2 right-2 bg-black hover:text-pink py-2 w-32 rounded-md absolute text-white text-base uppercase"
-                      :class="{ show: openDetail == false }">
+              <button @click="clickDetail" class="bottom-2 right-2 bg-black hover:text-pink py-2 w-32 rounded-md absolute text-white text-base uppercase">
                 see more <font-awesome-icon icon="arrow-right" class="mr-2"/>
               </button>
             </router-link>
@@ -128,9 +127,9 @@ export default {
       };
     },
     methods: {
-      openModalDetail(v){
-      this.openDetail = v;
-      },
+      // openModalDetail(v){
+      // this.openDetail = v;
+      // },
       closeModal(){
       this.openDetail = false;
       },
@@ -177,9 +176,9 @@ export default {
           })
       },
       getProductImage(productImg){
-      // return "http://localhost:9000/image/"+productImg  ;
+      return "http://localhost:9000/image/"+productImg  ;
       // return "http://52.230.37.169:9000/image/"+productImg;
-      return "http://40.65.142.182/backend/image/"+productImg;
+      // return "http://40.65.142.182/backend/image/"+productImg;
       },
       refreshList() {
         this.retrieveProduct();

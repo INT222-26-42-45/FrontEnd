@@ -48,29 +48,64 @@
           </div>
           <div class="pb-8 pt-4">
             <router-link to="/list-product">
-              <button @click="clickDetail" class="bottom-2 right-2 bg-black hover:text-pink py-2 w-32 rounded-md absolute text-white text-base uppercase">
+              <button @click="clickDetail(p.productId)"  class="bottom-2 right-2 bg-black hover:text-pink py-2 w-32 rounded-md absolute text-white text-base uppercase">
                 see more <font-awesome-icon icon="arrow-right" class="mr-2"/>
               </button>
             </router-link>
           </div>
         </base-block>
-      </div>
+      </div> 
     </div>
     <div class="md:grid-cols-4">
         <router-view @show="refreshList()" ></router-view>
     </div>
-    <div v-if="openDetail" class="overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none flex justify-center items-center mb-4">
+
+    <div v-if="openDetail"  class="overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none flex justify-center items-center mb-4">
             <div class="h-96 border-0 rounded-md shadow-lg flex flex-col lg:w-3/4 md:w-1/2 bg-white outline-none focus:outline-none">
+              
               <div class="flex justify-end">
-                <button class="close text-black" type="button" @click="closeModal" > X </button>
+                <button class="close text-black" type="button" @click="closeModal()" > X </button>
               </div>
+
               <div class="pt-3 flex justify-center md:justify-center">
                 <h3 class="text-3xl uppercase text-darkgray">product detail</h3>
               </div>
+
                 <div class=" bg-white rounded-md px-4 pb-4">
                   <form class="text-darkgray">
                     <div class="lg:flex lg:flex-row justify-around mt-2 space-x-5 sm:flex-col">
+                      <div v-for="pr in popupProduct" :key="pr.productId" >
+                        
                         <div class="flex justify-center mt-2 w-3/5 space-y-1 rounded-md border-gray-200 bg-gray-200">
+                        <img class="object-cover w-auto lg:h-52 p-2 " :src="getProductImage(pr.productImg)"/>
+                        </div>
+
+                        <div class=" mt-2 w-2/5 space-y-2 ">
+                        <p class="text-xl  text-left">Name: {{pr.productName}}</p>
+                        <p class="text-lg  text-left ">Type: {{pr.productType}}</p>
+                        <p class="text-lg text-left">Price: {{pr.productPrice}}</p>
+                        
+                        <div class="text-left ">
+                          <label class="text-lg " >Color: </label>
+                            <div class="flex justify-items-start ml-9">
+                              <div v-for="color in pr.colors" :key="color.colorId">
+                              <input type="checkbox" class="ml-4" v-model="selectColor" :value="color"/>
+                              <div class="w-8 h-8 rounded-md border ml-2" :style="{ background: color.colorName }"></div>
+                            </div>
+                          </div>
+                          <p v-if="invalidColors" class="error">"Please select product color"</p>
+                        </div>
+                        <div class="flex">
+                        <p class="text-lg text-center ml-9">Size: {{pr.productSize}}</p>
+                        </div>
+                        <div class="flex">
+                          <label id="quant" class="text-lg text-center ml-8">Quantity: </label>
+                           <input  type="number" name="quantity"
+                           class="w-24 h-10 ml-5 rounded-sm text-center text-lg text-gray-700 bg-gray-200 outline-none focus:outline-none hover:text-black focus:text-black"/>
+                        </div>
+                      </div>
+
+                        <!-- <div class="flex justify-center mt-2 w-3/5 space-y-1 rounded-md border-gray-200 bg-gray-200">
                           <img class="object-cover w-auto lg:h-52 p-2" src="../assets/Airmax-90-4.png" />
                         </div>
                         <div class=" mt-2 w-2/5 space-y-2 ">
@@ -91,7 +126,7 @@
                             <p class="text-lg text-left">Quantity:</p>
                             <input type="number" value="1" 
                               class="w-full rounded-sm text-center text-lg text-gray-700 bg-gray-200 outline-none focus:outline-none hover:text-black focus:text-black" />
-                          </div>
+                          </div> -->
                           <div class=" pt-6">
                             <router-link to="/cart">
                               <button class=" bg-black hover:text-pink py-2 w-4/5 rounded-md text-white text-base uppercase">
@@ -99,43 +134,58 @@
                               </button>
                             </router-link>
                           </div>
-                        </div>
-                    </div>
+                        <!-- </div> -->
+                    
+                    
                     <div class="mt-6">
-                      <p class="text-xl font-semibold">Nike Air Max 90</p>
-                      <p class="text-lg text-justify">Designed for basketball in the 70s, glorified by hip-hop fans of the 80s, the adidas Superstar has become a must-have item for today street-dwellers. The world-famous seashell design retains the original style and protection of the basketball court, eliminating the worry of being hit by your feet at festivals or on the street. Maintain the original look with jagged 3-Stripes and the adidas Superstar logo in a square frame.</p>
+                      <p class="text-xl font-semibold">{{pr.productName}}</p>
+                      <p class="text-lg text-justify">{{pr.productDescription}}</p>
                     </div>
+                      </div>
+                  </div>
                   </form>
-                </div>
-            </div>
+               </div>
+            
+          </div>
       </div>
+
       <div v-if="openDetail" class="show-modal"></div>
+
   </div>
 </template>
 
 <script>
 import ProductService from '../service/ProductService';
 // import SearchProduct from '../components/SearchProduct.vue';
-
 export default {
     components: {
     },
     data(){
       return {
-        product: {},
-        openDetail: false,
+        product: [],
+        show: false,
+        popupProduct: [],
+        openDetail: false
       };
     },
     methods: {
-      // openModalDetail(v){
-      // this.openDetail = v;
-      // },
       closeModal(){
       this.openDetail = false;
       },
-      clickDetail(){
-        this.openDetail = true;
+      clickDetail(productId){
+        // this.openDetail = true;
+        this.popupProduct = [];
+        var pro = [];
+        ProductService.get("/product/"+productId)
+        .then(res => {
+          pro = res.data;
+          this.popupProduct.push(pro);
+        }); 
+        this.openDetail = true;    
       },
+      // showDetail(){
+      //   this.show != this.show;
+      // },
       // addToCart(productId){
       //   axios.post(`${this.baseURL}cart/add?token=${this.token}`,{
       //     productId : productId,
@@ -173,6 +223,7 @@ export default {
         ProductService.get("/product")
           .then(response => {
             this.product = response.data;
+            console.log(response)
           })
       },
       getProductImage(productImg){

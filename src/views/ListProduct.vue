@@ -185,9 +185,7 @@ export default {
         }); 
         this.openDetail = true;    
       },
-      // showDetail(){
-      //   this.show != this.show;
-      // },
+      
       // addToCart(productId){
       //   axios.post(`${this.baseURL}cart/add?token=${this.token}`,{
       //     productId : productId,

@@ -1,9 +1,9 @@
 <template>
   <div class="w-full text-base font-sans text-black md:overflow-hidden">
     <div class="flex justify-center mt-4 ">
-      <div>
+      <!-- <div>
         <search-product @box-search="box_search" @status-search="statusSearch" v-show="search"></search-product>
-      </div>
+      </div> -->
       <div>      
       </div>
     </div>   
@@ -67,13 +67,13 @@
                           </div>
                           <div class="flex">
                             <label id="quant" class="text-lg text-center">Quantity: </label>
-                            <input  type="number" name="quantity"
+                            <input v-model="quantity" type="number" name="quantity"
                             class="ml-2 w-24 h-10 rounded-sm text-center text-lg text-gray-700 bg-gray-200 outline-none focus:outline-none hover:text-black focus:text-black"/>
                           </div>
                         
                           <div class=" pt-6">
                             <router-link to="/cart">
-                              <button class=" bg-black hover:text-pink py-2 w-4/5 rounded-md text-white text-base uppercase">
+                              <button @click="addToCart(pr.productId, quantity)" class=" bg-black hover:text-pink py-2 w-4/5 rounded-md text-white text-base uppercase">
                               add to cart <font-awesome-icon icon="shopping-cart" class="mr-2"/>
                               </button>
                             </router-link>
@@ -99,8 +99,10 @@
 </template>
 
 <script>
+// import axios from 'axios';
 import ProductService from '../service/ProductService';
-import SearchProduct from '../components/SearchProduct.vue';
+import authHeader from '../service/AuthenHeader';
+// import SearchProduct from '../components/SearchProduct.vue';
 export default {
 
     components: {
@@ -112,9 +114,8 @@ export default {
         show: false,
         popupProduct: [],
         openDetail: false,
-        search: false,
-        boxsearch: '',
-        notFound: false,
+        quantity: null,
+        productId: null
       };
     },
     // computed: {
@@ -154,25 +155,24 @@ export default {
         }); 
         this.openDetail = true;    
       },
-      // showDetail(){
-      //   this.show != this.show;
-      // },
-      // addToCart(productId){
-      //   axios.post(`${this.baseURL}cart/add?token=${this.token}`,{
-      //     productId : productId,
-      //     quantity : this.quantity
-      //   }).then((response) => {
-      //   if(response.status==201){
-      //     this.$swal({
-      //       text: "Product added to the cart!",
-      //       icon: "success",
-      //       closeOnClickOutside: false,
-      //     });
-      //   }
-      //   },(error) =>{
-      //     console.log(error)
-      //   });
-      // },
+      addToCart(productId, quantity){
+        console.log(authHeader().Authorization);
+        ProductService.post(`/cart/add/${productId}/${quantity}`, {
+                headers: authHeader()
+            //  headers: {
+            //     Authorization: `Bearer ${localStorage.getItem('users')}`,
+            //  },
+        }).then(response => {
+                response.status === 200 ? alert("Add") : alert("Error")
+          // this.$swal({
+          //   text: "Product added to the cart!",
+          //   icon: "success",
+          //   closeOnClickOutside: false,
+          // });
+            }).catch(error => {
+                console.log(error);
+            })
+      },
       // listCartItems(){
       //   axios.get(`${this.baseURL}cart/?token=${this.token}`).then((response) => {
       //     if(response.status===200){
@@ -184,7 +184,7 @@ export default {
       // },
       // retrieveProduct() {
       //   ProductService.get("/product" , {
-      //      headers: AuthenHeader()
+      //      headers: authHeader()
       //   })
       //       .then(response => {
       //           this.product = response.data;

@@ -1,3 +1,4 @@
+<!--
 <template>
     <div class="text-black flex flex-col text-2xl font-bold uppercase px-5 lg:py-5 py-2 lg:w-1/6 mx-auto w-max">
         Your cart
@@ -84,16 +85,45 @@
 </div>
 </template>
 
-<script>
+<script> 
 
-export default {
-    name: "cart",
-    data() {
+// import ProductService from '../service/ProductService.js';
+// import AuthenHeader from '../service/AuthenHeader';
+// export default {
+//     name: "cart",
+//     props: ["product"],
+//     data() {
+//         return {
+//         cart: [],
+//         quantity: null
+//       };
+//     },
+//     methods: {
+//         listCart(userId){
+//             ProductService.get("/cart/"+userId , {
+//            headers: AuthenHeader()
+//             }).then(response => {
+//                 this.cart = response.data;
+//             })
+//         },
+//         updateQuantity(productId, quantity){
+//             ProductService.post("/cart/update/"+productId, quantity ,{
+//             headers: AuthenHeader(),
+//             productId : this.productId,
+//             quantity : this.quantity
+//             }).then(response => {
+//             response.status === 200 ? alert("Add") : alert("Error")
+//             })
+//         },
+//         deleteProduct(productId) {
+//             ProductService.delete("/cart/delete/"+ productId,{
+//                 headers: AuthenHeader()
+//             }) 
+//             .then(response => {
+//                 this.cart = response.data;
+//             });
+//         },
+//     }
 
-    },
-    methods: {
-
-    },
-
-};
-</script>
+// };
+// </script> !-->

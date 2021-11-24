@@ -40,22 +40,22 @@
      <div class="container flex flex-col justify-center p-10 mx-auto md:items-center lg:items-start md:flex-row md:flex-no-wrap">
       <div class="flex flex-wrap flex-grow mt-10 -mb-10 text-left md:pl-20 md:mt-0 md:text-left">
         <div class="w-full lg:w-1/4 md:w-1/2">
-            <router-link to="/product">
+            <router-link to="/list-product">
               <h1 class="mb-3 text-lg font-bold tracking-widest text-white uppercase title-font no-underline">Products
               </h1>
             </router-link>
             <nav class="list-none w-full">
-              <router-link to="/product">
+              <router-link to="/list-product">
                 <li>
                   <p class="text-sm text-white break-normal no-underline">Nike Sneaker</p>
                 </li>
               </router-link>
-              <router-link to="/product">
+              <router-link to="/list-product">
                 <li>
                   <p class="text-sm mt-2 text-white">Adidas Sneaker</p>
                 </li>
               </router-link>
-              <router-link to="/product">
+              <router-link to="/list-product">
                 <li>
                   <p class="text-sm mt-2 text-white">NB Sneaker</p>
                 </li>
@@ -63,22 +63,22 @@
             </nav>
         </div>
         <div class="w-full  lg:w-1/4 md:w-1/2">
-            <router-link to="/product">
+            <router-link to="/list-product">
               <h1 class="mb-3 text-lg font-bold tracking-widest text-white  uppercase title-font">Collections
               </h1>
             </router-link>
               <nav class="mb-8 list-none">
-                <router-link to="/product">
+                <router-link to="/list-product">
                 <li>
                     <p class="text-sm text-white">Nike Air</p>
                 </li>
                 </router-link>
-                <router-link to="/product">
+                <router-link to="/list-product">
                   <li>
                     <p class="text-sm mt-2 text-white">Sperstar NMD</p>
                   </li>
                 </router-link>
-                <router-link to="/product">
+                <router-link to="/list-product">
                 <li>
                     <p class="text-sm mt-2 text-white">574</p>
                 </li>
@@ -126,7 +126,7 @@ export default {
     logOut() {
       this.$store.dispatch('auth/logout');
       this.$router.push('/');
-    }
+    },
   }
 };
 </script>

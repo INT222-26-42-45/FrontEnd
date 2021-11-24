@@ -30,7 +30,7 @@
 
 <script>
 export default {
-  name: 'Login',
+  name: 'LoginAdmin',
   data() {
       return {
           username: "",

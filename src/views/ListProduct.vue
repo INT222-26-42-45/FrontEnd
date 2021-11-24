@@ -1,15 +1,12 @@
 <template>
   <div class="w-full text-base font-sans text-black md:overflow-hidden">
-    <!-- <div class="flex justify-center mt-4 ">
+    <div class="flex justify-center mt-4 ">
       <div>
         <search-product @box-search="box_search" @status-search="statusSearch" v-show="search"></search-product>
-        <button @click="statusSearch" v-show="!search">
-          <img src="../assets/search.png" />
-        </button>  
       </div>
       <div>      
       </div>
-    </div>    -->
+    </div>   
     
     <div class="grid md:grid-cols-4 sm:grid-cols-1 text-left justify-items-center">
       <div v-for="p in product" :key="p.productId" :id="p.productId" class="w-full p-1 md:p-2">
@@ -103,19 +100,46 @@
 
 <script>
 import ProductService from '../service/ProductService';
-// import SearchProduct from '../components/SearchProduct.vue';
+import SearchProduct from '../components/SearchProduct.vue';
 export default {
+
     components: {
+      SearchProduct
     },
     data(){
       return {
         product: [],
         show: false,
         popupProduct: [],
-        openDetail: false
+        openDetail: false,
+        search: false,
+        boxsearch: '',
+        notFound: false,
       };
     },
+    // computed: {
+    //    searchName(){
+    //         if(this.boxsearch){
+    //             if(this.product.filter(product => product.productName.toLowerCase().includes(this.boxsearch.toLowerCase())) == ''){
+    //                 this.notFound = true
+    //             }else{
+    //                 this.notFound = false
+    //                 return this.product.filter(product => product.productName.toLowerCase().includes(this.boxsearch.toLowerCase()))
+    //             }
+    //         }else{
+    //             this.notFound = false
+    //             return this.product
+    //         }
+    //     }
+    // },
     methods: {
+      box_search(productName){
+        this.boxsearch = productName
+      },
+      statusSearch(){
+        this.search = !this.search
+        this.boxsearch=''
+      },
       closeModal(){
       this.openDetail = false;
       },

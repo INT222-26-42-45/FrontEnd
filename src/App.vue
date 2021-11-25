@@ -27,10 +27,10 @@
                 {{ currentUser.username }}
             </router-link>
           </div>
+        </div>
         <button class="flex-no-grow flex-no-shrink py-2 px-4 leading-normal text-white no-underline flex items-center " @click.prevent="logOut">
           <font-awesome-icon icon="sign-out-alt" class="mr-2"/>LOG OUT
         </button>
-        </div>
       
       </div>
     </div> 

@@ -55,20 +55,19 @@
                           <p class="text-lg  text-left ">Type: {{pr.productType}}</p>
                           <p class="text-lg text-left">Price: {{pr.productPrice}}</p>
                           <p class="text-lg text-left">Size: {{pr.productSize}}</p>
+                          <div class="flex">
+                            <label id="quant" class="text-lg text-center">Quantity: </label>
+                            <input type="number" name="quantity" value="1"
+                            class="ml-2 w-24 h-8 rounded-sm text-center text-lg text-gray-700 bg-gray-200 outline-none focus:outline-none hover:text-black focus:text-black"/>
+                          </div>
                           <div class="text-left ">
                             <label class="text-lg " >Color: </label>
                               <div class="flex justify-items-start">
                                 <div v-for="color in pr.colors" :key="color.colorId">
-                                <input type="checkbox" class="ml-4" v-model="selectColor" :value="color"/>
+                                <input type="checkbox" class="ml-4" :value="color"/>
                                 <div class="w-8 h-8 rounded-md border ml-2" :style="{ background: color.colorName }"></div>
                               </div>
                             </div>
-                            <p v-if="invalidColors" class="error">"Please select product color"</p>
-                          </div>
-                          <div class="flex">
-                            <label id="quant" class="text-lg text-center">Quantity: </label>
-                            <input v-model="quantity" type="number" name="quantity"
-                            class="ml-2 w-24 h-10 rounded-sm text-center text-lg text-gray-700 bg-gray-200 outline-none focus:outline-none hover:text-black focus:text-black"/>
                           </div>
                         
                           <div class=" pt-6">
@@ -106,7 +105,7 @@ import authHeader from '../service/AuthenHeader';
 export default {
 
     components: {
-      SearchProduct
+      // SearchProduct
     },
     data(){
       return {
@@ -158,10 +157,10 @@ export default {
       addToCart(productId, quantity){
         console.log(authHeader().Authorization);
         ProductService.post(`/cart/add/${productId}/${quantity}`, {
-                headers: authHeader()
-            //  headers: {
-            //     Authorization: `Bearer ${localStorage.getItem('users')}`,
-            //  },
+                // headers: authHeader().Authorization
+             headers: {
+                Authorization: authHeader().Authorization,
+             },
         }).then(response => {
                 response.status === 200 ? alert("Add") : alert("Error")
           // this.$swal({

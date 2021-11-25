@@ -206,14 +206,14 @@ export default {
             })
         },
         editProfile(user){
-            this.firstname = user.firstname;
-            this.lastname = user.lastname;
-            this.birth = user.birth;
-            this.gender = user.gender;
-            this.email = user.email;
-            this.tel = user.tel;
-            this.username = user.username;
-            this.password = user.password;
+            this.firstname = user.FirstName;
+            this.lastname = user.LastName;
+            this.birth = user.DOB;
+            this.gender = user.Gender;
+            this.email = user.Email;
+            this.tel = user.Tel;
+            this.username = user.UserName;
+            this.password = user.Password;
             this.edited = user;
         }
 

@@ -156,13 +156,12 @@ export default {
       },
       addToCart(productId, quantity){
         console.log(authHeader().Authorization);
-        ProductService.post(`/cart/add/${productId}/${quantity}`, {
-                // headers: authHeader().Authorization
+        ProductService.post(`/cart/add/${productId}/${quantity}`, {} ,{
              headers: {
                 Authorization: authHeader().Authorization,
              },
         }).then(response => {
-                response.status === 200 ? alert("Add") : alert("Error")
+                response.status === 200 ? alert("Add Product To Cart. Success!") : alert("Error")
           // this.$swal({
           //   text: "Product added to the cart!",
           //   icon: "success",
@@ -197,8 +196,8 @@ export default {
           })
       },
       getProductImage(productImg){
-      return "http://localhost:9000/image/"+productImg  ;
-      // return "http://52.230.37.169:9000/image/"+productImg;
+      // return "http://localhost:9000/image/"+productImg  ;
+      return "http://52.230.37.169/backend/image/"+productImg;
       // return "http://40.65.142.182/backend/image/"+productImg;
       },
       refreshList() {

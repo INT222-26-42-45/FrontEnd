@@ -9,7 +9,20 @@
             </button>
         </div> -->
         <div class="flex justify-center mt-4">
-            <div class=" w-2/4 rounded-md bg-darkgray shadow-lg p-2 ">
+            <div class="border-0 rounded-md shadow-lg flex flex-col lg:w-2/4 md:w-1/2 sm:w-1/3 bg-white outline-none focus:outline-none">
+                <div v-for="u in user" :key="u.userId" :id="u.userId">
+                    <div class="flex flex-row space-x-4">
+                        <div class="flex flex-col w-1/2">
+                            <p class="text-xl text-darkgray">Firstname: {{u.firstname}}</p>
+                        </div>
+
+                        <div class="flex flex-col w-1/2">
+                            <p class="text-xl text-darkgray">Lastname: {{u.lastname}}</p>
+                        </div> 
+                    </div>
+                </div>
+            </div>
+            <!-- <div class=" w-2/4 rounded-md bg-darkgray shadow-lg p-2 ">
                 <form  @submit.prevent="updateProfile(edited)" class="space-y-1 text-left p-2">
                         <div class="flex flex-row space-x-4">
                             <div class="flex flex-col w-1/2">
@@ -63,10 +76,7 @@
                             <input v-model="password" type="password" class="inputsign" required>
                         </div>
                     </div>
-                    <!-- <div class="flex flex-col">
-                        <label class="labelsign">Confirm Password: </label>
-                        <input v-model="passwordConfirm" type="password" class="inputsign" required>
-                    </div> -->
+
                     <div class="flex justify-around pt-3 ">
                         <button @click="clickEdit" v-if="editBtn" type="submit" class="font-sans text-lg font-medium uppercase bottom-0 text-center text-white py-2 w-64 bg-pink hover:bg-pklight rounded-md">
                             <span
@@ -93,14 +103,14 @@
                         </button>
                     </div>
                 </form>
-                    <!-- <div
+                    <div
                         v-if="message"
                         class="alert"
                         :class="successful ? 'alert-success' : 'alert-danger'"
                      >
                         {{ message }}
-                    </div> -->
-            </div>
+                    </div>
+            </div> -->
         </div>
     </div>
 </template>
@@ -130,7 +140,7 @@ export default {
             invalidTel: false,
             invalidUsername: false,
             invalidPassword: false,
-            userId: this.id,
+            userId: null,
             edited: null
         }
     },
@@ -140,7 +150,7 @@ export default {
             this.editBtn = false;
         },
         retrieveUser(userId) {
-            ProductService.get("/user/"+userId, {
+            ProductService.get("/user/",+userId, {
                 headers: AuthenHeader()
             })
                 .then(response => {
@@ -220,6 +230,11 @@ export default {
     },
     created() {
     this.retrieveUser(); 
+    },
+    computed: {
+        currentUser() {
+            return this.$store.state.auth.users;
+        },
     },
 
 }

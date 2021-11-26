@@ -62,11 +62,9 @@
                           </div>
                           <div class="text-left ">
                             <label class="text-lg " >Color: </label>
-                              <div class="flex justify-items-start">
-                                <div v-for="color in pr.colors" :key="color.colorId">
-                                <input type="checkbox" class="ml-4" :value="color"/>
-                                <div class="w-8 h-8 rounded-md border ml-2" :style="{ background: color.colorName }"></div>
-                              </div>
+                              <div class="">
+                                <input type="checkbox" class="ml-4" v-model="selectColor" :value="pr.colors"/>
+                                <div class="w-8 h-8 rounded-md border ml-2" :style="{ background: pr.colors.colorName }"></div>
                             </div>
                           </div>
                         
@@ -155,50 +153,31 @@ export default {
         this.openDetail = true;    
       },
       addToCart(productId, quantity){
-        console.log(authHeader().Authorization);
         ProductService.post(`/cart/add/${productId}/${quantity}`, {} ,{
              headers: {
                 Authorization: authHeader().Authorization,
              },
         }).then(response => {
-                response.status === 200 ? alert("Add Product To Cart. Success!") : alert("Error")
-          // this.$swal({
-          //   text: "Product added to the cart!",
-          //   icon: "success",
-          //   closeOnClickOutside: false,
-          // });
+                response.status === 200 ? alert("Add") : alert("Error")
             }).catch(error => {
                 console.log(error);
             })
       },
-      // listCartItems(){
-      //   axios.get(`${this.baseURL}cart/?token=${this.token}`).then((response) => {
-      //     if(response.status===200){
-      //       this.$router.push('/cart')
-      //     }
-      //   },(error)=>{
-      //     console.log(error)
-      //   });
-      // },
-      // retrieveProduct() {
-      //   ProductService.get("/product" , {
-      //      headers: authHeader()
-      //   })
-      //       .then(response => {
-      //           this.product = response.data;
-      //   })
-      // },
       retrieveProduct() {
         ProductService.get("/product")
           .then(response => {
             this.product = response.data;
-            console.log(response)
           })
       },
       getProductImage(productImg){
+<<<<<<< HEAD
       return "http://localhost:9000/image/"+productImg  ;
       // return "http://52.230.37.169/backend/image/"+productImg;
       // return "http://40.65.142.182/backend/image/"+productImg;
+=======
+      // return "http://localhost:9000/image/"+productImg;
+      return "http://52.230.37.169/backend/image/"+productImg;
+>>>>>>> 0c9d8e22893b452946ad944e19f171ccb475e51e
       },
       refreshList() {
         this.retrieveProduct();

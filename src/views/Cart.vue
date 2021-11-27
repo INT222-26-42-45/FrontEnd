@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-
-=======
->>>>>>> 0c9d8e22893b452946ad944e19f171ccb475e51e
 <template>
     <div class="text-black flex flex-col text-2xl font-bold uppercase px-5 lg:py-5 py-2 lg:w-1/6 mx-auto w-max">
         Your cart
@@ -82,24 +78,7 @@
 </template>
 
 <script> 
-
 import ProductService from '../service/ProductService.js';
-<<<<<<< HEAD
-import AuthenHeader from '../service/AuthenHeader';
-export default {
-    name: "cart",
-    props: ["product"],
-    data() {
-        return {
-        cart: [],
-        quantity: null
-      };
-    },
-    methods: {
-        listCart(userId){
-            ProductService.get("/cart/"+userId , {
-           headers: AuthenHeader()
-=======
 import authHeader from '../service/AuthenHeader';
 export default {
     name: "cart",
@@ -118,37 +97,13 @@ export default {
              headers: {
                 Authorization: authHeader().Authorization,
              },
->>>>>>> 0c9d8e22893b452946ad944e19f171ccb475e51e
             }).then(response => {
                 this.cart = response.data;
             })
         },
-<<<<<<< HEAD
-        updateQuantity(productId, quantity){
-            ProductService.post("/cart/update/"+productId, quantity ,{
-            headers: AuthenHeader(),
-            productId : this.productId,
-            quantity : this.quantity
-            }).then(response => {
-            response.status === 200 ? alert("Add") : alert("Error")
-            })
-        },
-        deleteProduct(productId) {
-            ProductService.delete("/cart/delete/"+ productId,{
-                headers: AuthenHeader()
-            }) 
-            .then(response => {
-                this.cart = response.data;
-            });
-        },
-    }
-
-};
-</script> !
-=======
         retrieveProductImage(productImg){
             // return "http://localhost:9000/image/"+productImg;
-      return "http://52.230.37.169/backend/image/"+productImg;
+            return "http://52.230.37.169/backend/image/"+productImg;
       },
       updateCart(cartId,quantity){
         ProductService.put(`/cart/update/${cartId}/${quantity}`, {} ,{
@@ -189,7 +144,5 @@ export default {
     created() {
         this.listCart();
     }
-
 };
 </script> 
->>>>>>> 0c9d8e22893b452946ad944e19f171ccb475e51e

@@ -9,7 +9,7 @@
             </button>
         </div> -->
         <div class="flex justify-center mt-4">
-            <div class="border-0 rounded-md shadow-lg flex flex-col lg:w-2/4 md:w-1/2 sm:w-1/3 bg-white outline-none focus:outline-none">
+            <!-- <div class="border-0 rounded-md shadow-lg flex flex-col lg:w-2/4 md:w-1/2 sm:w-1/3 bg-white outline-none focus:outline-none">
                 <div v-for="u in user" :key="u.userId" :id="u.userId">
                     <div class="flex flex-row space-x-4">
                         <div class="flex flex-col w-1/2">
@@ -21,8 +21,8 @@
                         </div> 
                     </div>
                 </div>
-            </div>
-            <!-- <div class=" w-2/4 rounded-md bg-darkgray shadow-lg p-2 ">
+            </div> -->
+            <div class=" w-2/4 rounded-md bg-darkgray shadow-lg p-2 ">
                 <form  @submit.prevent="updateProfile(edited)" class="space-y-1 text-left p-2">
                         <div class="flex flex-row space-x-4">
                             <div class="flex flex-col w-1/2">
@@ -110,7 +110,7 @@
                      >
                         {{ message }}
                     </div>
-            </div> -->
+            </div>
         </div>
     </div>
 </template>

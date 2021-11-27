@@ -120,10 +120,10 @@
                                 <div class=" pt-1.5">
                                     <label  class="label">Color: </label>
                                     <div class="grid grid-cols-10 justify-items-start">
-                                        <div v-for="color in colors" :key="color.colorId"  >
-                                            <input type="checkbox" v-model="selectColor" :value="color"/>
-                                           <div class=" w-8 h-8 rounded-md mx-2" :style="{ background: color.colorName }"></div>
-                                        </div>
+                                      <div v-for="pr in product" :key="pr.productId">
+                                        <input type="checkbox" class="ml-4" v-model="selectColor" :value="pr.colors"/>
+                                        <div class="w-8 h-8 rounded-md border ml-2" :style="{ background: pr.colors.colorName }"></div>
+                                      </div>
                                     </div>
                                     <p v-if="invalidColors" class="error">"Please select product color"</p>
                                 </div>
@@ -251,8 +251,8 @@ export default {
       })
     },
     getProductImage(productImg){
-      return "http://localhost:9000/image/"+productImg;
-      // return "http://40.65.142.182/backend/image/"+productImg;
+      // return "http://localhost:9000/image/"+productImg;
+      return "http://40.65.142.182/backend/image/"+productImg;
     },
     selectPic(s) {
             const file = s.target.files[0];

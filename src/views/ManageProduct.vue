@@ -25,11 +25,11 @@
 
         <p class="mt-1">{{"Size: "+ p.productSize }}</p>
 
-        <p class="mt-1 mb-1">{{"Brand: "+ p.brands.brandName }}</p>
+        <p class="mt-1 mb-2">{{"Brand: "+ p.brands.brandName }}</p>
         
         <div class="colorFormat">
-        <div class="color rounded" v-for="color in p.colors" 
-        :key="color.colorId" :style="{ background: color.colorName }">
+        <div class="color rounded" 
+        :key="p.colors.colorId" :style="{ background: p.colors.colorName }">
         </div>
         </div>
 
@@ -120,10 +120,10 @@
                                 <div class=" pt-1.5">
                                     <label  class="label">Color: </label>
                                     <div class="grid grid-cols-10 justify-items-start">
-                                      <div v-for="pr in product" :key="pr.productId">
-                                        <input type="checkbox" class="ml-4" v-model="selectColor" :value="pr.colors"/>
-                                        <div class="w-8 h-8 rounded-md border ml-2" :style="{ background: pr.colors.colorName }"></div>
-                                      </div>
+                                        <div v-for="color in colors" :key="color.colorId"  >
+                                            <input type="checkbox" v-model="selectColor" :value="color"/>
+                                           <div class=" w-8 h-8 rounded-md mx-2" :style="{ background: color.colorName }"></div>
+                                        </div>
                                     </div>
                                     <p v-if="invalidColors" class="error">"Please select product color"</p>
                                 </div>

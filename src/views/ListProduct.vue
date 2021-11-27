@@ -3,18 +3,24 @@
 
     <div class="flex justify-center mt-4 space-x-2">
       <div>
-        <input v-model="boxSearch" type="text" placeholder="Enter sneaker's name!"
-              class="p-2 py-2 w-80 bg-white rounded border-2 border-black">
-      </div>
+        <input @keyup="searchProduct" v-show="search.click" v-model="boxsearch" placeholder="Enter sneaker's name!"
+                class="p-2 py-2 w-80 bg-white rounded border-2 border-black">
+        </div>
       <div>
-        <button class="hover:bg-pink bg-black py-2 px-3 rounded-md text-white text-lg uppercase">
+        <button  @click="statusSearch" v-show="search.nClick">
+          <span class="material-icons">search</span>
+        </button>
+        <button class="hover:bg-pink bg-black py-2 px-3 rounded-md text-white text-lg uppercase" v-show="search.click" @click="statusSearch">
           Cancel
         </button>
       </div>
-    </div>  
+    </div> 
     
+    <div class="flex justify-center h-full" v-show="notFound">
+        <p class="font-bold text-2xl my-24"> Your search isn't listed. </p>
+    </div>
     <div class="grid md:grid-cols-4 sm:grid-cols-1 text-left justify-items-center">
-      <div v-for="p in searchItem" :key="p.productId" :id="p.productId" class="w-full p-1 md:p-2">
+      <div v-show="p.pShow" v-for="p in product" :key="p.productId" :id="p.productId" class="w-full p-1 md:p-2">
         <base-block class="relative">
           <img class="object-cover w-full rounded-t-md border-gray-200 h-36 bg-gray-200" :src="getProductImage(p.productImg)"/>
           <div class="text-left p-2">
@@ -57,7 +63,7 @@
 
                         <div class=" mt-2 w-2/5 space-y-2 ">
                           <p class="text-xl  text-left">Name: {{pr.productName}}</p>
-                          <p class="text-lg  text-left ">Type: {{pr.productType}}</p>
+                          <p class="text-lg  text-left">Type: {{pr.productType}}</p>
                           <p class="text-lg text-left">Price: {{pr.productPrice}}</p>
                           <p class="text-lg text-left">Size: {{pr.productSize}}</p>
                           <div class="text-left ">
@@ -70,8 +76,8 @@
                           </div>
                           <div class="flex">
                             <label id="quant" class="text-lg text-center">Quantity: </label>
-                            <input v-model="quantity" type="number" name="quantity"
-                            class="ml-2 w-24 h-10 rounded-sm text-center text-lg text-gray-700 bg-gray-200 outline-none focus:outline-none hover:text-black focus:text-black"/>
+                            <input v-model="quantity" type="number" name="quantity" 
+                            class="ml-2 w-20 h-8 rounded-sm text-center text-lg text-gray-700 bg-gray-200 outline-none focus:outline-none hover:text-black focus:text-black"/>
                           </div>
                         
                           <div class=" pt-6">
@@ -116,12 +122,14 @@ export default {
         show: false,
         popupProduct: [],
         openDetail: false,
-        quantity: null,
+        quantity: 1,
         productId: null,
-        boxSearch: "",
         productName: "",
-        p: true
-      };
+        search: {click: false, nClick: true},
+        boxsearch: "",
+        notFound: false,
+        pShow: true
+      };  
     },
     methods: {
       closeModal(){
@@ -167,18 +175,52 @@ export default {
                 this.colors = response.data;
             })
       },
-      computed: {
-        searchItem() {
-          return this.product.filter((showProduct) => {
-            return showProduct.productName.toLowerCase().includes(this.boxSearch.toLowerCase());
-          });
+      statusSearch() {
+        this.search.click = !this.search.click
+        this.search.nClick = !this.search.nClick
+        this.boxsearch = ""
+        this.showList();
+      },
+      searchProduct(){
+        if(this.boxsearch){
+          for (let index = 0; index < this.product.length; index++){
+            const texts = this.product[index];
+            if(texts.productName !== this.boxsearch.toUpperCase()){
+              texts.pShow = false
+              this.notFound = false
+            }
+            if(texts.productName.includes(this.boxsearch.toUpperCase())){
+              texts.pShow = true
+              this.notFound = false
+            }
+            if(this.product.every(texts => !texts.pShow)){
+              this.notFound = true
+            }
+          }
+        }else{
+          this.showList();
         }
       },
+    
+      showList(){
+        for (let index = 0; index < this.product.length; index++){
+          this.product[index].pShow = true
+          this.notFound = false
+        }
+      }
     },
     created() {
     this.retrieveProduct(); 
     this.listColor(); 
     },
+  //   computed: {
+  //   filterImages() {
+  //     const { product, boxsearch } = this;
+  //     return product.filter(({ productName }) => productName.includes(boxsearch));
+      
+  //   },
+
+  // },
 };
 </script>
 

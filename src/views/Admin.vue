@@ -67,6 +67,15 @@
                         </div>
                     </div>
                     <div class="flex justify-around pt-3 ">
+                        <button @click="clickEdit" v-if="editBtn" type="submit" class="font-sans text-lg font-medium uppercase bottom-0 text-center text-white py-2 w-64 bg-pink hover:bg-pklight rounded-md">
+                            <span
+                            v-show="loading"
+                            class="spinner-border spinner-border-sm"
+                            ></span>
+                            edit
+                        </button>
+                    </div>
+                    <div v-if="openConfirm" class="flex justify-around pt-3 ">
                         <button type="submit" class="font-sans text-lg font-medium uppercase bottom-0 text-center text-white py-2 w-64 bg-green-600 hover:bg-green-500 rounded-md" :disabled="loading">
                             <span
                             v-show="loading"
@@ -108,3 +117,19 @@
         </div>
     </div>
 </template>
+<script>
+export default {
+    data(){
+        return {
+            openConfirm: false,
+            editBtn: true,
+        }
+    },
+    methods: {
+        clickEdit(){
+            this.openConfirm = true;
+            this.editBtn = false;
+        }
+    }
+}
+</script>

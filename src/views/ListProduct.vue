@@ -1,18 +1,20 @@
 <template>
   <div class="w-full text-base font-sans text-black md:overflow-hidden">
-    <!-- <div class="flex justify-center mt-4 ">
+
+    <div class="flex justify-center mt-4 space-x-2">
       <div>
-        <search-product @box-search="box_search" @status-search="statusSearch" v-show="search"></search-product>
-        <button @click="statusSearch" v-show="!search">
-          <img src="../assets/search.png" />
-        </button>  
+        <input v-model="boxSearch" type="text" placeholder="Enter sneaker's name!"
+              class="p-2 py-2 w-80 bg-white rounded border-2 border-black">
       </div>
-      <div>      
+      <div>
+        <button class="hover:bg-pink bg-black py-2 px-3 rounded-md text-white text-lg uppercase">
+          Cancel
+        </button>
       </div>
-    </div>    -->
+    </div>  
     
     <div class="grid md:grid-cols-4 sm:grid-cols-1 text-left justify-items-center">
-      <div v-for="p in product" :key="p.productId" :id="p.productId" class="w-full p-1 md:p-2">
+      <div v-for="p in searchItem" :key="p.productId" :id="p.productId" class="w-full p-1 md:p-2">
         <base-block class="relative">
           <img class="object-cover w-full rounded-t-md border-gray-200 h-36 bg-gray-200" :src="getProductImage(p.productImg)"/>
           <div class="text-left p-2">
@@ -22,7 +24,7 @@
           </div>
           <div class="pb-8 pt-4">
             <router-link to="/list-product">
-              <button @click="clickDetail(p.productId)"  class="bottom-2 right-2 bg-black hover:text-pink py-2 w-32 rounded-md absolute text-white text-base uppercase">
+              <button @click="clickDetail(p.productId)"  class="bottom-2 right-2 hover:bg-black hover:text-pink py-2 w-32 rounded-md absolute text-black text-base uppercase">
                 see more <font-awesome-icon icon="arrow-right" class="mr-2"/>
               </button>
             </router-link>
@@ -60,11 +62,9 @@
                           <p class="text-lg text-left">Size: {{pr.productSize}}</p>
                           <div class="text-left ">
                             <label class="text-lg " >Color: </label>
-                              <div class="flex justify-items-start">
-                                <div v-for="color in pr.colors" :key="color.colorId">
-                                <input type="checkbox" class="ml-4" v-model="selectColor" :value="color"/>
-                                <div class="w-8 h-8 rounded-md border ml-2" :style="{ background: color.colorName }"></div>
-                              </div>
+                              <div class="">
+                                <input type="checkbox" class="ml-4" v-model="selectColor" :value="pr.colors"/>
+                                <div class="w-8 h-8 rounded-md border ml-2" :style="{ background: pr.colors.colorName }"></div>
                             </div>
                             <p v-if="invalidColors" class="error">"Please select product color"</p>
                           </div>
@@ -108,6 +108,7 @@ import authHeader from '../service/AuthenHeader';
 // import SearchProduct from '../components/SearchProduct.vue';
 export default {
     components: {
+      // SearchProduct,
     },
     data(){
       return {
@@ -116,7 +117,10 @@ export default {
         popupProduct: [],
         openDetail: false,
         quantity: null,
-        productId: null
+        productId: null,
+        boxSearch: "",
+        productName: "",
+        p: true
       };
     },
     methods: {
@@ -135,51 +139,25 @@ export default {
         this.openDetail = true;    
       },
       addToCart(productId, quantity){
-        console.log(authHeader().Authorization);
-        ProductService.post(`/cart/add/${productId}/${quantity}`, {
-                headers: authHeader()
-            //  headers: {
-            //     Authorization: `Bearer ${localStorage.getItem('users')}`,
-            //  },
+        ProductService.post(`/cart/add/${productId}/${quantity}`, {} ,{
+             headers: {
+                Authorization: authHeader().Authorization,
+             },
         }).then(response => {
                 response.status === 200 ? alert("Add") : alert("Error")
-          // this.$swal({
-          //   text: "Product added to the cart!",
-          //   icon: "success",
-          //   closeOnClickOutside: false,
-          // });
             }).catch(error => {
                 console.log(error);
             })
       },
-      // listCartItems(){
-      //   axios.get(`${this.baseURL}cart/?token=${this.token}`).then((response) => {
-      //     if(response.status===200){
-      //       this.$router.push('/cart')
-      //     }
-      //   },(error)=>{
-      //     console.log(error)
-      //   });
-      // },
-      // retrieveProduct() {
-      //   ProductService.get("/product" , {
-      //      headers: authHeader()
-      //   })
-      //       .then(response => {
-      //           this.product = response.data;
-      //   })
-      // },
       retrieveProduct() {
         ProductService.get("/product")
           .then(response => {
             this.product = response.data;
-            console.log(response)
           })
       },
       getProductImage(productImg){
-      return "http://localhost:9000/image/"+productImg  ;
-      // return "http://52.230.37.169:9000/image/"+productImg;
-      // return "http://40.65.142.182/backend/image/"+productImg;
+      // return "http://localhost:9000/image/"+productImg;
+      return "http://52.230.37.169/backend/image/"+productImg;
       },
       refreshList() {
         this.retrieveProduct();
@@ -188,7 +166,14 @@ export default {
             ProductService.get("/color").then(response => {
                 this.colors = response.data;
             })
-        },
+      },
+      computed: {
+        searchItem() {
+          return this.product.filter((showProduct) => {
+            return showProduct.productName.toLowerCase().includes(this.boxSearch.toLowerCase());
+          });
+        }
+      },
     },
     created() {
     this.retrieveProduct(); 

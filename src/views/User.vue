@@ -4,6 +4,7 @@
             account management
         </div>
         <div class="flex justify-center mt-4 text-darkgray">
+            <div v-for="u in user" :key="u.userId">
             <table class="border-collapse border border-darkgray table-fixed w-3/4 text-lg shadow-lg">
                 <thead>
                     <tr class="border border-r border-darkgray h-12 text-xl">
@@ -16,7 +17,6 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <div v-for="u in listUser" :key="u.userId">
                         <tr class="h-10">
                             <td class="border-b border-darkgray">{{u.userId}}</td>
                             <td class="border-b border-darkgray">{{u.username}}</td>
@@ -29,9 +29,9 @@
                                 </button>
                             </td>
                         </tr>
-                    </div>
                 </tbody>
             </table>
+            </div>
         </div>
         <!-- <div class="border-collapse border border-darkgray table-fixed w-3/4 text-lg shadow-lg">
             <router-view @show="refreshList()" ></router-view>
@@ -86,7 +86,8 @@ export default {
     data(){
         return {
             openVerify: false,
-            listUser: [],
+            user: [],
+            userId: null
         }
     },
     methods: {
@@ -96,7 +97,7 @@ export default {
         clickDelete(){
             this.openVerify = true;
         },
-        retrieveListUser() {
+        retrieveUser() {
             ProductService.get("/listuser", {
                 headers: AuthenHeader()
             })

@@ -23,7 +23,7 @@
                 </div>
             </div> -->
             <div class=" w-2/4 rounded-md bg-darkgray shadow-lg p-2 ">
-                <form  @submit.prevent="updateProfile(edited)" class="space-y-1 text-left p-2">
+                <!-- <form  @submit.prevent="updateProfile(update)" class="space-y-1 text-left p-2"> -->
                         <div class="flex flex-row space-x-4">
                             <div class="flex flex-col w-1/2">
                                 <label class="labelsign text-white">Firstname: </label>
@@ -56,7 +56,7 @@
                     <div class="flex flex-row space-x-4 pt-2">
                         <div class="flex flex-col w-1/2">
                             <label class="labelsign text-white">Email: </label>
-                            <input v-model="email" type="email" class="inputsign" required>
+                            <input v-model="email"  type="email" class="inputsign" required>
                         </div>
 
                         <div class="flex flex-col w-1/2">
@@ -64,20 +64,29 @@
                             <input v-model="tel" type="text" class="inputsign" required>
                         </div>
                     </div>
-
-                    <div class="flex flex-row space-x-4 pt-2">
+                    
+                    <!-- <div class="flex flex-row space-x-4 pt-2">
                         <div class="flex flex-col w-1/2">
                             <label class="labelsign text-white">Username: </label>
-                            <input v-model="username" type="text" class="inputsign" required>
+                            <input v-model="u.username" type="text" class="inputsign" required>
                         </div>
 
                         <div class="flex flex-col w-1/2">
                             <label class="labelsign text-white">Password: </label>
-                            <input v-model="password" type="password" class="inputsign" required>
+                            <input v-model="u.password" type="password" class="inputsign" required>
                         </div>
-                    </div>
+                    </div> -->
 
                     <div class="flex justify-around pt-3 ">
+                        <button @click="updateProfile(userId)"  type="submit" class="font-sans text-lg font-medium uppercase bottom-0 text-center text-white py-2 w-64 bg-pink hover:bg-pklight rounded-md">
+                            <span
+                            v-show="loading"
+                            class="spinner-border spinner-border-sm"
+                            ></span>
+                            edit
+                        </button>
+                    </div> 
+                    <!-- <div class="flex justify-around pt-3 ">
                         <button @click="clickEdit" v-if="editBtn" type="submit" class="font-sans text-lg font-medium uppercase bottom-0 text-center text-white py-2 w-64 bg-pink hover:bg-pklight rounded-md">
                             <span
                             v-show="loading"
@@ -101,8 +110,8 @@
                             ></span>
                             cancle
                         </button>
-                    </div>
-                </form>
+                    </div> -->
+                <!-- </form> -->
                     <div
                         v-if="message"
                         class="alert"
@@ -116,13 +125,10 @@
 </template>
 <script>
 import ProductService from '../service/ProductService';
-import AuthenHeader from '../service/AuthenHeader.js'
+import authHeader from '../service/AuthenHeader.js'
 export default {
     data(){
         return {
-            openConfirm: false,
-            openProfile: false,
-            editBtn: true,
             user: [],
             firstname: "",
             lastname: "",
@@ -132,101 +138,59 @@ export default {
             tel: "",
             username: "",
             password: "",
-            invalidFirstname: false,
-            invalidLastname: false,
-            invalidBirth: false,
-            invalidGender: false,
-            invalidEmail: false,
-            invalidTel: false,
-            invalidUsername: false,
-            invalidPassword: false,
             userId: null,
             edited: null
         }
     },
     methods: {
-        clickEdit(){
-            this.openConfirm = true;
-            this.editBtn = false;
-        },
-        retrieveUser(userId) {
-            ProductService.get("/user/",+userId, {
-                headers: AuthenHeader()
+        retrieveUser() {
+            ProductService.get(`/user`, {
+                headers: {
+                Authorization: authHeader().Authorization,
+             },
+            }).then(response => {
+                for(let i in response.data){
+                    this.userId = response.data[i].userId,
+                    this.firstname = response.data[i].firstname,
+                    this.lastname = response.data[i].lastname,
+                    this.birth = response.data[i].birth,
+                    this.gender = response.data[i].gender,
+                    this.email = response.data[i].email,
+                    this.tel = response.data[i].tel
+                }
+                // console.log(response)
             })
-                .then(response => {
-                this.user = response.data;
-                console.log(response)
-            })
         },
-        // clickProfile(userId){
-        // this.openProfile = true;
-        //     this.pageprofile = [];
-        //     var pro = [];
-        //         ProductService.get("/user/"+userId)
-        //         .then(res => {
-        //         pro = res.data;
-        //     this.pageprofile.push(pro);
-        //     });    
-        // },
-        profileForm(){
-            this.invalidFirstname = this.firstname === "" ? true:false;
-            this.invalidLastname = this.lastname === "" ? true:false;
-            this.invalidBirth = this.birth === "" ? true:false;
-            this.invalidGender = this.gender === "" ? true:false;
-            this.invalidEmail = this.email === "" ? true:false;
-            this.invalidTel = this.tel === "" ? true:false;
-            this.invalidUsername = this.username === "" ? true:false;
-            this.invalidPassword = this.password === "" ? true:false;
-            if(this.invalidFirstname || this.invalidLastname || 
-                this.invalidBirth || this.invalidGender || 
-                this.invalidEmail || this.invalidTel ||
-                this.invalidUsername || this.invalidPassword)
-            {
-                return;
-            }
-            this.updateProfile();
-        },
-        updateProfile(edit){
+
+        updateProfile(userId){
             const formData = new FormData();
-            const uId = edit.userId;
-            let isEdit = {
-                userId: uId,
+            let edit = {
+                userId: this.userId,
                 firstname: this.firstname,
                 lastname: this.lastname,
                 birth: this.birth,
                 gender: this.gender,
                 email: this.email,
-                tel: this.tel,
-                username: this.username,
-                password: this.password
+                tel: this.tel
             }
-            const userData = JSON.stringify(isEdit);
+            const userData = JSON.stringify(edit);
+            console.log(userData);
             const blob = new Blob([userData], {
                 type: 'application/json'
             });
             
             formData.append('newUser', blob);
-            ProductService.put("/edit/"+ uId, formData, {
-                // headers: {
-                //     'Conten-Type' : 'multipart/form-data'
-                // }
-                headers: AuthenHeader()
+            console.log(formData);
+            ProductService.put(`user/edit/${userId}`, formData, {
+                headers: {
+                    Authorization: authHeader().Authorization,
+                    'Content-Type' : 'multipart/form-data'
+                },
             }).then(response => {
                 response.status === 200 ? alert("Edit") : alert("Error")
+                this.$router.go()
             })
         },
-        editProfile(user){
-            this.firstname = user.FirstName;
-            this.lastname = user.LastName;
-            this.birth = user.DOB;
-            this.gender = user.Gender;
-            this.email = user.Email;
-            this.tel = user.Tel;
-            this.username = user.UserName;
-            this.password = user.Password;
-            this.edited = user;
-        }
-
     },
     created() {
     this.retrieveUser(); 

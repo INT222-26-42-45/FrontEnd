@@ -65,14 +65,15 @@
 
                     <p class="labelsign text-center underline hover:text-pink"><router-link to="/">Sign In Here</router-link></p>
                      </div>
-                </form>
-                    <div
+                     <div
                         v-if="message"
                         class="alert"
                         :class="successful ? 'alert-success' : 'alert-danger'"
                      >
                         {{ message }}
                     </div>
+                </form>
+                
             </div>
         </div>
 

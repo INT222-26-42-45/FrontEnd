@@ -1,15 +1,17 @@
 <template>
   <div class="w-full text-base font-sans text-black md:overflow-hidden">
-    <!-- <div class="flex justify-center mt-4 ">
+
+    <div class="flex justify-center mt-4 space-x-2">
       <div>
-        <search-product @box-search="box_search" @status-search="statusSearch" v-show="search"></search-product>
-        <button @click="statusSearch" v-show="!search">
-          <img src="../assets/search.png" />
-        </button>  
+        <input v-model="boxSearch" type="text" placeholder="Enter sneaker's name!"
+              class="p-2 py-2 w-80 bg-white rounded border-2 border-black">
       </div>
-      <div>      
+      <div>
+        <button class="hover:bg-pink bg-black py-2 px-3 rounded-md text-white text-lg uppercase">
+          Cancel
+        </button>
       </div>
-    </div>    -->
+    </div>  
     
     <div class="grid md:grid-cols-4 sm:grid-cols-1 text-left justify-items-center">
       <div v-for="p in product" :key="p.productId" :id="p.productId" class="w-full p-1 md:p-2">
@@ -22,7 +24,7 @@
           </div>
           <div class="pb-8 pt-4">
             <router-link to="/list-product">
-              <button @click="clickDetail(p.productId)"  class="bottom-2 right-2 bg-black hover:text-pink py-2 w-32 rounded-md absolute text-white text-base uppercase">
+              <button @click="clickDetail(p.productId)"  class="bottom-2 right-2 hover:bg-black hover:text-pink py-2 w-32 rounded-md absolute text-black text-base uppercase">
                 see more <font-awesome-icon icon="arrow-right" class="mr-2"/>
               </button>
             </router-link>
@@ -106,6 +108,7 @@ import authHeader from '../service/AuthenHeader';
 // import SearchProduct from '../components/SearchProduct.vue';
 export default {
     components: {
+      // SearchProduct,
     },
     data(){
       return {
@@ -115,6 +118,9 @@ export default {
         openDetail: false,
         quantity: null,
         productId: null
+        // boxSearch: "",
+        // productName: "",
+        // p: true
       };
     },
     methods: {
@@ -135,7 +141,7 @@ export default {
       addToCart(productId, quantity){
         ProductService.post(`/cart/add/${productId}/${quantity}`, {} ,{
              headers: {
-                Authorization: authHeader().Authorization,
+                Authorization: authHeader().Authorization
              },
         }).then(response => {
                 response.status === 200 ? alert("Add") : alert("Error")
@@ -150,7 +156,8 @@ export default {
           })
       },
       getProductImage(productImg){
-      return "http://localhost:9000/image/"+productImg;
+        return "https://skorshop.ddns.net/backend/image/"+productImg;
+      // return "http://localhost:9000/image/"+productImg;
       // return "http://52.230.37.169/backend/image/"+productImg;
       },
       refreshList() {
@@ -160,7 +167,14 @@ export default {
             ProductService.get("/color").then(response => {
                 this.colors = response.data;
             })
-        },
+      },
+      // computed: {
+      //   searchItem() {
+      //     return this.product.filter((showProduct) => {
+      //       return showProduct.productName.toLowerCase().includes(this.boxSearch.toLowerCase());
+      //     });
+      //   }
+      // },
     },
     created() {
     this.retrieveProduct(); 

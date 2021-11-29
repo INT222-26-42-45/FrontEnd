@@ -69,37 +69,37 @@
                 </div>
 
                 <div class=" bg-darkgray rounded-md px-4">
-                    <form @submit.prevent="updateProduct(update)">
+                    <form @submit.prevent="updateProduct(submitEdit)">
                         <div class="flex flex-row justify-around mt-2 space-x-5">
                             <div class="mt-2 w-2/5 space-y-2">
                                 <div>
                                     <label class="label">Product name: </label>
                                     <input  type="text" id="productName" name="productName"
-                                    v-model.trim="productName"   class="font-medium rounded-md border-2 border-orange border-opacity-50y w-full px-3 py-2 focus:ring-2 focus:ring-orange"/>
+                                    v-model="productName"   class="font-medium rounded-md border-2 border-orange border-opacity-50y w-full px-3 py-2 focus:ring-2 focus:ring-orange"/>
                                     <p v-if="invalidProductName" class="error">"Please enter product name"</p>
                                 </div>
                                 <div>
                                     <label class="label">Type: </label>
                                     <input  type="text" id="productType" name="productType" placeholder="Men/Women"
-                                    v-model.trim="productType"  class="font-medium rounded-md border-2 border-orange border-opacity-50y w-full px-3 py-2"/>
+                                    v-model="productType"  class="font-medium rounded-md border-2 border-orange border-opacity-50y w-full px-3 py-2"/>
                                     <p v-if="invalidProductType" class="error">"Please enter product type"</p>
                                 </div>
                                 <div>
                                     <label class="label">Price: </label>
                                     <input  type="number"  placeholder=""
-                                    v-model.trim="productPrice"  class="font-medium rounded-md border-2 border-orange border-opacity-50y w-full px-3 py-2"/>
+                                    v-model="productPrice"  class="font-medium rounded-md border-2 border-orange border-opacity-50y w-full px-3 py-2"/>
                                     <p v-if="invalidProductPrice" class="error">"Please enter product price"</p>
                                 </div>
                                 <div>
                                     <label class="label">Size: </label>
                                     <input  type="text" id="productSize" name="productSize"
-                                    v-model.trim="productSize"  class="font-medium rounded-md border-2 border-orange border-opacity-50y w-full px-3 py-2"/>
+                                    v-model="productSize"  class="font-medium rounded-md border-2 border-orange border-opacity-50y w-full px-3 py-2"/>
                                     <p v-if="invalidProductSize" class="error">"Please enter product size"</p>
                                 </div>
                                 <div>
                                     <label class="label">Date: </label>
                                     <input  type="Date" id="productDate" name="productDate" 
-                                    v-model.trim="productDate"  class="font-medium text-left rounded-md border-2 border-orange border-opacity-50y w-full px-3 py-2"/>
+                                    v-model="productDate"  class="font-medium text-left rounded-md border-2 border-orange border-opacity-50y w-full px-3 py-2"/>
                                     <p v-if="invalidProductDate" class="error">"Please enter product date"</p>
                                 </div>
                             </div>
@@ -107,12 +107,12 @@
                                 <div>
                                     <label class="label">Description: </label>
                                     <textarea rows="4" cols="50" type="text" id="productDescription" name="productDescription"
-                                    placeholder="Enter product description ..." v-model.trim="productDescription"  class="w-full px-3 py-2 mb-1 h-52 font-medium text-left bg-white border-2 border-orange border-opacity-50y rounded-md"/>
+                                    placeholder="Enter product description ..." v-model="productDescription"  class="w-full px-3 py-2 mb-1 h-52 font-medium text-left bg-white border-2 border-orange border-opacity-50y rounded-md"/>
                                     <p v-if="invalidProductDescription" class="error">"Please enter product description"</p>
                                 </div>
                                 <div>
                                     <label class="label">Brand: </label>
-                                    <select id="brands"  v-model.trim="selectBrand"  name="brands" class="font-medium rounded-md border-2 border-orange border-opacity-50y w-full px-3 py-2" >  
+                                    <select id="brands"  v-model="selectBrand"  name="brands" class="font-medium rounded-md border-2 border-orange border-opacity-50y w-full px-3 py-2" >  
                                         <option v-for="brand in brands" :value="brand"  :key="brand.brandId">{{ brand.brandName }}</option> 
                                     </select>
                                     <p v-if="invalidBrand" class="error">"Please select product brand"</p>
@@ -120,9 +120,9 @@
                                 <div class=" pt-1.5">
                                     <label  class="label">Color: </label>
                                     <div class="grid grid-cols-10 justify-items-start">
-                                        <div v-for="color in colors" :key="color.colorId"  >
+                                        <div v-for="p in product" :key="p.productId"  >
                                             <input type="checkbox" v-model="selectColor" :value="color"/>
-                                           <div class=" w-8 h-8 rounded-md mx-2" :style="{ background: color.colorName }"></div>
+                                           <div class=" w-8 h-8 rounded-md mx-2" :style="{ background: p.colors.colorName }"></div>
                                         </div>
                                     </div>
                                     <p v-if="invalidColors" class="error">"Please select product color"</p>
@@ -161,8 +161,8 @@ export default {
   data(){
     return {
       product: [],
-      colors: [],
       brands: [],
+      colors: [],
       showModal: false,
       editClicked: false,
       imageUpload: this.imageDb ? this.imageDb : imageUpload,
@@ -183,9 +183,10 @@ export default {
       invalidBrands: false,
       invalidColors: false,
       selectBrand: null,
-      selectColor: [],
+      selectColor: null,
       image: null,
       submitEdit: null,
+      productId: this.id,
     };
   },
   methods: {
@@ -212,9 +213,9 @@ export default {
             },
     updateProduct(update) {
             const formData = new FormData();
-            let productId = update.productId;
+            let pid = update.productId;
             let edit = {
-                productId: productId,
+                productId: pid,
                 productName: this.productName,
                 productType: this.productType,
                 productSize: this.productSize,
@@ -233,7 +234,7 @@ export default {
             formData.append('file', this.imageFile);
             formData.append('newProduct', blob);
             
-            ProductService.put("/edit/"+ this.productId, formData, {
+            ProductService.put("/edit/"+ pid, formData, {
                 headers: {
                     'Content-Type' : 'multipart/form-data'
                 }
@@ -251,8 +252,8 @@ export default {
       })
     },
     getProductImage(productImg){
-      // return "http://localhost:9000/image/"+productImg;
-      return "http://40.65.142.182/backend/image/"+productImg;
+      return "http://localhost:9000/image/"+productImg;
+      // return "http://40.65.142.182/backend/image/"+productImg;
     },
     selectPic(s) {
             const file = s.target.files[0];

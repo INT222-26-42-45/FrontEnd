@@ -1,16 +1,16 @@
 <template>
   <div class="w-full text-base font-sans text-black md:overflow-hidden">
 
-    <div class="flex justify-center mt-4 space-x-2">
+    <div class="flex justify-center my-4 space-x-2">
       <div>
         <input @keyup="searchProduct" v-show="search.click" v-model="boxsearch" placeholder="Enter sneaker's name!"
-                class="p-2 py-2 w-80 bg-white rounded border-2 border-black">
+                class="p-2 py-2 lg:w-80 sm:w-60 bg-white rounded border-2 border-black">
         </div>
       <div>
         <button  @click="statusSearch" v-show="search.nClick">
           <span class="material-icons">search</span>
         </button>
-        <button class="hover:bg-pink bg-black py-2 px-3 rounded-md text-white text-lg uppercase" v-show="search.click" @click="statusSearch">
+        <button class="hover:bg-pink bg-black py-2 px-3 rounded-md text-white lg:text-lg sm:text-base uppercase" v-show="search.click" @click="statusSearch">
           Cancel
         </button>
       </div>
@@ -164,8 +164,8 @@ export default {
           })
       },
       getProductImage(productImg){
-      // return "http://localhost:9000/image/"+productImg;
-      return "http://52.230.37.169/backend/image/"+productImg;
+      return "http://localhost:9000/image/"+productImg;
+      // return "http://52.230.37.169/backend/image/"+productImg;
       },
       refreshList() {
         this.retrieveProduct();

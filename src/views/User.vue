@@ -4,9 +4,9 @@
             account management
         </div>
         <div class="flex justify-center mt-4 text-darkgray">
-            <table class="border-collapse border border-darkgray table-fixed w-3/4 text-lg shadow-lg">
+            <table class="border-collapse border border-darkgray table-fixed lg:w-3/4 lg:text-lg sm:w-3/4 sm:text-xs shadow-lg">
                 <thead>
-                    <tr class="border border-r border-darkgray h-12 text-xl">
+                    <tr class="border border-r border-darkgray h-12 lg:text-xl sm:text-base">
                         <th class="uppercase w-1/5">id</th>
                         <th class="uppercase w-1/3">username</th>
                         <th class="uppercase w-1/2">firstname</th>

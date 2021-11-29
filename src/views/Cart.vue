@@ -1,19 +1,19 @@
 <template>
-    <div class="text-black flex flex-col text-2xl font-bold uppercase px-5 lg:py-5 py-2 lg:w-1/6 mx-auto w-max">
+    <div class="text-black flex flex-col text-2xl font-bold uppercase lg:py-5 pt-6 lg:w-1/6 mx-auto w-max">
         Your cart
     </div>
-    <div class="flex justify-center text-darkgray font-sans mb-6">
+    <div class="flex justify-center text-darkgray font-sans mb-4">
         <div class="flex flex-col w-full p-8 bg-white shadow-lg pin-r pin-y md:w-4/5 lg:w-4/5">
             <div class="flex-1">
             <div v-for="c in cart" :key="c.cartId" >
             <table class="w-full table-fixed" cellspacing="0">
                 <thead>
-                    <tr class="h-12 uppercase text-xl">
+                    <tr class="h-12 uppercase lg:text-xl sm:text-base">
                         <th class="hidden md:table-cell"></th>
                         <th class="text-left">Product</th>
-                        <th class="lg:text-right text-left pl-5 lg:pl-0">
-                        <p class="lg:hidden" title="Quantity">Qtd</p>
-                        <p class="hidden lg:inline">Quantity</p>
+                        <th class="lg:text-right text-left pl-10 lg:pl-0">
+                            <p class="lg:hidden" title="Quantity">Qtd</p>
+                            <p class="hidden lg:inline">Quantity</p>
                         </th>
                         <th class="hidden text-right md:table-cell">Unit price</th>
                         <th class="text-right">Total price</th>
@@ -23,29 +23,27 @@
 
                     <tr class="h-10">
                         <td class="hidden pb-4 md:table-cell">
-                            <div class="box-content w-48 rounded-md bg-gray-200 mt-2">
-                                <img :src="retrieveProductImage(c.products.productImg)" class="w-48" alt="Thumbnail" />
+                            <div class="box-content lg:w-48 md:w-28 rounded-md bg-gray-200 mt-2">
+                                <img :src="retrieveProductImage(c.products.productImg)" class="lg:w-48 md:w-28" alt="Thumbnail" />
                             </div>
                         </td>
                         <td>
-                            <p class="mb-2 md:ml-2 text-xl">{{c.products.productName}}</p>
-                            <button type="submit" @click="deleteCart(c.cartId)"  class="text-gray-700 hover:text-red-600 md:ml-2">
+                            <p class="mb-2 md:ml-8 lg:text-base sm:text-sm">{{c.products.productName}}</p>
+                            <button type="submit" @click="deleteCart(c.cartId)"  class="text-gray-700 hover:text-red-600 md:ml-6">
                                 <small>(Remove item)</small>
                             </button>
                         </td>
-                        <td class="justify-center md:justify-end md:flex mt-8">
-                            <div class="w-20 h-10">
-                                <input type="number" v-model="c.quantity" 
-                                class="w-full rounded-md text-center text-lg text-gray-700 bg-gray-200 outline-none focus:outline-none hover:text-black focus:text-black" />
-                            <button type="submit" @click="updateCart(c.cartId,c.quantity)"  class="text-gray-700 hover:text-red-600 md:ml-2">
+                        <td class="mt-4 text-right">
+                            <input type="number" v-model="c.quantity" 
+                                    class="lg:ml-28 w-16 rounded-md text-center text-lg text-gray-700 bg-gray-200 outline-none focus:outline-none hover:text-black focus:text-black" />
+                            <button type="submit" @click="updateCart(c.cartId,c.quantity)"  class="text-gray-700 hover:text-green-600 lg:ml-24 mt-2">
                                 <small>(Update)</small>
                             </button>
-                            </div>
                         </td>
-                        <td class="justify-center mt-6 hidden text-right md:table-cell">
+                        <td class="justify-center mt-4 hidden text-right md:table-cell">
                             <p class="mb-2 md:ml-2 text-xl">{{c.products.productPrice}}</p>
                         </td>
-                        <td class="justify-center mt-6 text-right">
+                        <td class="justify-center mt-4 text-right">
                             <p class="mb-2 md:ml-2 text-xl">{{c.total}}</p>
                         </td>
                     </tr> 
@@ -102,8 +100,8 @@ export default {
             })
         },
         retrieveProductImage(productImg){
-            // return "http://localhost:9000/image/"+productImg;
-            return "http://52.230.37.169/backend/image/"+productImg;
+            return "http://localhost:9000/image/"+productImg;
+            // return "http://52.230.37.169/backend/image/"+productImg;
       },
       updateCart(cartId,quantity){
         ProductService.put(`/cart/update/${cartId}/${quantity}`, {} ,{

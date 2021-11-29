@@ -1,7 +1,7 @@
 <template>
-    <div class="flex flex-row">
-        <div class=" w-2/5 mt-8 ml-24">
-            <div class="border bg-white bg-opacity-30 rounded-lg w-5/6 h-auto">
+    <div class="lg:flex lg:flex-row md:flex md:flex-row sm:flex sm:flex-col">
+        <div class="lg:w-2/5 mt-8 lg:ml-24 md:flex md:justify-center">
+            <div class="border bg-white bg-opacity-30 rounded-lg lg:w-5/6 sm:w-96 md:ml-8 lg:h-auto">
                 <p class="uppercase font-sans text-center text-xl font-bold mt-4">register</p>
                 <form  @submit.prevent="signUp(firstname,lastname,birth,gender,email,tel,username,password)" class="space-y-1 text-left p-4">
                      <div v-if="!successful">
@@ -77,7 +77,7 @@
             </div>
         </div>
 
-        <div class="w-3/5 mt-10">
+        <div class="lg:w-3/5 lg:mt-10 sm:w-full sm:mt-4 md:mt-52">
            <img src="../assets/Register.png" />
         </div>
     </div>

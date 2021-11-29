@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none flex justify-center items-center mb-4">
+        <div class="font-sans overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none flex justify-center items-center mb-4">
             <div class=" h-96 border-0 rounded-md shadow-lg flex flex-col lg:w-3/4 md:w-1/2 bg-darkgray outline-none focus:outline-none">
                 <div class="flex justify-end">
                     <button class="close text-white" type="button" @click="closeModal" > X </button>

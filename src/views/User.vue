@@ -1,12 +1,13 @@
 <template>
-    <div class="flex flex-col font-sans">
-        <div class="mt-8 text-center uppercase font-bold text-black text-2xl">
+    <div class="flex flex-col font-sans my-4">
+        <div class=" text-center uppercase font-bold text-black text-2xl">
             account management
         </div>
         <div class="flex justify-center mt-4 text-darkgray">
-            <table class="border-collapse border border-darkgray table-fixed lg:w-3/4 lg:text-lg sm:w-3/4 sm:text-xs shadow-lg">
+            <div v-for="u in user" :key="u.userId">
+            <table class="border-collapse border border-darkgray table-fixed w-3/4 text-lg shadow-lg">
                 <thead>
-                    <tr class="border border-r border-darkgray h-12 lg:text-xl sm:text-base">
+                    <tr class="border border-r border-darkgray h-12 text-xl">
                         <th class="uppercase w-1/5">id</th>
                         <th class="uppercase w-1/3">username</th>
                         <th class="uppercase w-1/2">firstname</th>
@@ -16,7 +17,6 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <div v-for="u in listUser" :key="u.userId">
                         <tr class="h-10">
                             <td class="border-b border-darkgray">{{u.userId}}</td>
                             <td class="border-b border-darkgray">{{u.username}}</td>
@@ -29,9 +29,10 @@
                                 </button>
                             </td>
                         </tr>
-                    </div>
+                    
                 </tbody>
             </table>
+            </div>
         </div>
         <!-- <div class="border-collapse border border-darkgray table-fixed w-3/4 text-lg shadow-lg">
             <router-view @show="refreshList()" ></router-view>
@@ -39,7 +40,7 @@
 
         <div v-if="openVerify"  class="overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none flex justify-center items-center mb-4">
             <div class=" h-56 border-0 rounded-md shadow-lg flex flex-col lg:w-2/4 md:w-1/2 bg-white outline-none focus:outline-none">
-              
+
               <div class="flex justify-end">
                 <button class="close text-black" type="button" @click="closeModal()" > X </button>
               </div>
@@ -71,7 +72,7 @@
                     </div>
                   </form>
                </div>
-            
+
             </div>
         </div>
 
@@ -82,11 +83,11 @@
 import ProductService from '../service/ProductService.js';
 import AuthenHeader from '../service/AuthenHeader.js';
 export default {
-
     data(){
         return {
             openVerify: false,
-            listUser: [],
+            user: [],
+            userId: null
         }
     },
     methods: {
@@ -105,12 +106,9 @@ export default {
                 console.log(response)
             })
         },
-        refreshList() {
-            this.retrieveListUser();
-        },
     },
     created() {
         this.retrieveListUser();
     } 
 };
-</script>
+</script> 

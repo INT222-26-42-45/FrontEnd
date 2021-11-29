@@ -1,11 +1,11 @@
 <template>
     <div class="flex flex-col font-sans">
-        <div class="mt-8 text-center uppercase font-bold text-black text-2xl">
+        <div class="mt-4 text-center uppercase font-bold text-black text-2xl">
             brand & color management
         </div>
-        <div class="flex flex-row justify-around space-x-8">
+        <div class="flex flex-row justify-around space-x-8 my-4">
             <div class="flex flex-col pl-4">
-                <div class="mt-8 text-center uppercase font-bold text-black text-xl">
+                <div class="text-center uppercase font-bold text-black text-xl">
                     brand
                 </div>
                 <div class="border border-gray-50 rounded-md shadow-lg p-2 mt-2">
@@ -44,7 +44,7 @@
             </div>
 
             <div class="flex flex-col pr-4">
-                <div class="mt-8 text-center uppercase font-bold text-black text-xl">
+                <div class="text-center uppercase font-bold text-black text-xl">
                      color
                 </div>
                 <div class="border border-gray-50 rounded-md shadow-lg p-2 mt-2">

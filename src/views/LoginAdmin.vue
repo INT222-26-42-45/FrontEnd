@@ -1,5 +1,5 @@
 <template>
-    <div class="flex justify-center mt-8 font-sans text-black md:overflow-hidden">
+    <div class="flex justify-center my-4 font-sans text-black md:overflow-hidden">
             <div class="lg:divide-x-2 lg:divide-darkgray border shadow-lg bg-white pb-2 p-2 rounded-lg lg:w-2/3 h-auto 
                         lg:flex lg:flex-row sm:w-auto md:w-auto">
                 <div class="w-3/5 mt-2">
@@ -51,7 +51,7 @@ export default {
   },
   created() {
       if (this.loggedIn) {
-          this.$router.push('/profile-admin');
+          this.$router.push('/admin-management');
       }
   },
   methods: {
@@ -60,7 +60,7 @@ export default {
           this.loading = true;
           this.$store.dispatch("auth/login", users).then(
               () => {
-                  this.$router.push('/profile-admin');
+                  this.$router.push('/admin-management');
               },
               (error) => {
                   this.loading = false;

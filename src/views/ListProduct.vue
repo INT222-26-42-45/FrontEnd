@@ -212,8 +212,8 @@ export default {
           })
       },
       getProductImage(productImg){
-      // return "http://localhost:9000/image/"+productImg;
-      return "http://52.230.37.169/backend/image/"+productImg;
+      return "http://localhost:9000/image/"+productImg;
+      // return "http://52.230.37.169/backend/image/"+productImg;
       },
       refreshList() {
         this.retrieveProduct();

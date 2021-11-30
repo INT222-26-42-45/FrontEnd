@@ -1,5 +1,5 @@
 <template>
-  <div id="nav" class="bg-black font-sans relative select-none bg-grey md:flex md:items-stretch w-full">
+  <div id="nav" class="bg-black font-sans text-base relative select-none bg-grey md:flex md:items-stretch w-full">
     <router-link to="/">
       <img class="ml-4 w-24 h-12 mt-2" alt="logo" src="./assets/logo.png" />
     </router-link>
@@ -11,9 +11,6 @@
         </div>
         <div class="flex-no-grow flex-no-shrink py-2 px-4 leading-normal text-white no-underline flex items-center">
           <router-link to="/list-product">LIST PRODUCT</router-link>
-        </div>
-        <div class="flex-no-grow flex-no-shrink py-2 px-4 leading-normal text-white no-underline flex items-center"> 
-          <router-link to="/manage-product">MANAGE PRODUCT</router-link>
         </div>
         <div class="flex-no-grow flex-no-shrink py-2 px-4 leading-normal text-white no-underline flex items-center"> 
           <router-link to="/cart">
@@ -36,7 +33,7 @@
     </div> 
   </div>
   <router-view/>
-  <footer class="bg-black mt-12 ">
+  <footer class="bg-black">
      <div class="container flex flex-col justify-center p-10 mx-auto md:items-center lg:items-start md:flex-row md:flex-no-wrap">
       <div class="flex flex-wrap flex-grow mt-10 -mb-10 text-left md:pl-20 md:mt-0 md:text-left">
         <div class="w-full lg:w-1/4 md:w-1/2">

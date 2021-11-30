@@ -1,17 +1,21 @@
 <template>
-    <div class="flex flex-row">
-        <div class="w-3/5">
-           <img class="w-auto h-5/6 mt-10" src="../assets/Login.png" />
+    <div class="font-sans w-full text-black md:overflow-hidden lg:flex lg:flex-row md:flex md:flex-col sm:flex sm:flex-col ">
+        <div class="lg:w-3/5">
+           <img class="lg:w-auto lg:h-5/6 lg:mt-10 sm:mt-6 sm:w-auto sm:h-2/6" src="../assets/Login.png" />
         </div>
 
-        <div class="w-2/5 mt-44">
-            <div class="relative border shadow-lg bg-white bg-opacity-30 rounded-lg w-2/3 h-72">
+        <div class="lg:w-2/5 lg:my-56 sm:mt-8 sm:flex sm:justify-center">
+            <div class="relative border shadow-lg p-3 bg-white bg-opacity-30 rounded-lg lg:w-2/3 sm:w-96 h-72">
                 <p class="uppercase font-sans text-center text-xl font-bold mt-4">sign in</p>
-                <form  @submit.prevent="signIn(username,password)" class="space-y-4 mt-6 mb-6">
-                    <input v-model="username" type="text"  class="inputsign px-3 py-2 w-72" placeholder="USERNAME" required>
-                    <input v-model="password" type="password"  class="inputsign px-3 py-2 w-72" placeholder="PASSWORD" required>
+                <form  @submit.prevent="signIn(username,password)" class="sm:flex sm:flex-col sm:justify-center space-y-4 mt-6 mb-6">
                     <div>
-                        <button type="submit" class="font-sans text-lg font-medium uppercase bottom-0 text-center text-white py-2 w-72 bg-black hover:bg-pink" :disabled="loading">
+                        <input v-model="username" type="text"  class="inputsign px-3 py-2 w-72 sm:w-full" placeholder="USERNAME" required>
+                    </div>
+                    <div>
+                        <input v-model="password" type="password"  class="inputsign px-3 py-2 w-72 sm:w-full" placeholder="PASSWORD" required>
+                    </div>
+                    <div>
+                        <button type="submit" class="font-sans text-lg font-medium uppercase bottom-0 text-center text-white py-2 w-72 sm:w-full bg-black hover:bg-pink" :disabled="loading">
                             <span
                                 v-show="loading"
                                 class="spinner-border spinner-border-sm"

@@ -1,27 +1,9 @@
 <template>
     <div class="font-sans">
-        <div class="mt-8 text-center uppercase font-bold text-darkgray text-2xl">
+        <div class="mt-4 text-center uppercase font-bold text-darkgray text-2xl">
             your profile
         </div>
-        <!-- <div class="flex justify-around pt-3 ">
-            <button type="submit" class="font-sans text-lg font-medium uppercase bottom-0 text-center text-white py-2 w-64 bg-pink hover:bg-pklight rounded-md">
-                    see your profile
-            </button>
-        </div> -->
-        <div class="flex justify-center mt-4">
-            <!-- <div class="border-0 rounded-md shadow-lg flex flex-col lg:w-2/4 md:w-1/2 sm:w-1/3 bg-white outline-none focus:outline-none">
-                <div v-for="u in user" :key="u.userId" :id="u.userId">
-                    <div class="flex flex-row space-x-4">
-                        <div class="flex flex-col w-1/2">
-                            <p class="text-xl text-darkgray">Firstname: {{u.firstname}}</p>
-                        </div>
-
-                        <div class="flex flex-col w-1/2">
-                            <p class="text-xl text-darkgray">Lastname: {{u.lastname}}</p>
-                        </div> 
-                    </div>
-                </div>
-            </div> -->
+        <div class="flex justify-center text-left my-4">
             <div class=" w-2/4 rounded-md bg-darkgray shadow-lg p-2 ">
                 <!-- <form  @submit.prevent="updateProfile(update)" class="space-y-1 text-left p-2"> -->
                         <div class="flex flex-row space-x-4">
@@ -70,7 +52,6 @@
                             <label class="labelsign text-white">Username: </label>
                             <input v-model="u.username" type="text" class="inputsign" required>
                         </div>
-
                         <div class="flex flex-col w-1/2">
                             <label class="labelsign text-white">Password: </label>
                             <input v-model="u.password" type="password" class="inputsign" required>
@@ -161,7 +142,6 @@ export default {
                 // console.log(response)
             })
         },
-
         updateProfile(userId){
             const formData = new FormData();
             let edit = {
@@ -200,6 +180,5 @@ export default {
             return this.$store.state.auth.users;
         },
     },
-
 }
 </script>

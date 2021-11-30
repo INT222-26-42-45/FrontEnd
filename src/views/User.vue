@@ -1,6 +1,6 @@
 <template>
-    <div class="flex flex-col font-sans">
-        <div class="mt-8 text-center uppercase font-bold text-black text-2xl">
+    <div class="flex flex-col font-sans my-4">
+        <div class=" text-center uppercase font-bold text-black text-2xl">
             account management
         </div>
         <div class="flex justify-center mt-4 text-darkgray">
@@ -29,6 +29,7 @@
                                 </button>
                             </td>
                         </tr>
+                    
                 </tbody>
             </table>
             </div>
@@ -39,7 +40,7 @@
 
         <div v-if="openVerify"  class="overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none flex justify-center items-center mb-4">
             <div class=" h-56 border-0 rounded-md shadow-lg flex flex-col lg:w-2/4 md:w-1/2 bg-white outline-none focus:outline-none">
-              
+
               <div class="flex justify-end">
                 <button class="close text-black" type="button" @click="closeModal()" > X </button>
               </div>
@@ -71,7 +72,7 @@
                     </div>
                   </form>
                </div>
-            
+
             </div>
         </div>
 
@@ -82,7 +83,6 @@
 import ProductService from '../service/ProductService.js';
 import AuthenHeader from '../service/AuthenHeader.js';
 export default {
-
     data(){
         return {
             openVerify: false,
@@ -97,7 +97,7 @@ export default {
         clickDelete(){
             this.openVerify = true;
         },
-        retrieveUser() {
+        retrieveListUser() {
             ProductService.get("/listuser", {
                 headers: AuthenHeader()
             })
@@ -106,12 +106,9 @@ export default {
                 console.log(response)
             })
         },
-        refreshList() {
-            this.retrieveListUser();
-        },
     },
     created() {
         this.retrieveListUser();
     } 
 };
-</script>
+</script> 

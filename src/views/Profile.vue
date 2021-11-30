@@ -5,7 +5,6 @@
         </div>
         <div class="flex justify-center text-left my-4">
             <div class=" w-2/4 rounded-md bg-darkgray shadow-lg p-2 ">
-                <!-- <form  @submit.prevent="updateProfile(update)" class="space-y-1 text-left p-2"> -->
                         <div class="flex flex-row space-x-4">
                             <div class="flex flex-col w-1/2">
                                 <label class="labelsign text-white">Firstname: </label>
@@ -47,17 +46,6 @@
                         </div>
                     </div>
                     
-                    <!-- <div class="flex flex-row space-x-4 pt-2">
-                        <div class="flex flex-col w-1/2">
-                            <label class="labelsign text-white">Username: </label>
-                            <input v-model="u.username" type="text" class="inputsign" required>
-                        </div>
-                        <div class="flex flex-col w-1/2">
-                            <label class="labelsign text-white">Password: </label>
-                            <input v-model="u.password" type="password" class="inputsign" required>
-                        </div>
-                    </div> -->
-
                     <div class="flex justify-around pt-3 ">
                         <button @click="updateProfile(userId)"  type="submit" class="font-sans text-lg font-medium uppercase bottom-0 text-center text-white py-2 w-64 bg-pink hover:bg-pklight rounded-md">
                             <span
@@ -67,32 +55,6 @@
                             edit
                         </button>
                     </div> 
-                    <!-- <div class="flex justify-around pt-3 ">
-                        <button @click="clickEdit" v-if="editBtn" type="submit" class="font-sans text-lg font-medium uppercase bottom-0 text-center text-white py-2 w-64 bg-pink hover:bg-pklight rounded-md">
-                            <span
-                            v-show="loading"
-                            class="spinner-border spinner-border-sm"
-                            ></span>
-                            edit
-                        </button>
-                    </div>
-                    <div v-if="openConfirm" class="flex justify-around pt-3 ">
-                        <button type="submit" class="font-sans text-lg font-medium uppercase bottom-0 text-center text-white py-2 w-64 bg-green-600 hover:bg-green-500 rounded-md" :disabled="loading">
-                            <span
-                            v-show="loading"
-                            class="spinner-border spinner-border-sm"
-                            ></span>
-                            save
-                        </button>
-                        <button type="submit" class="font-sans text-lg font-medium uppercase bottom-0 text-center text-white py-2 w-64 bg-red-600 hover:bg-red-500 rounded-md" :disabled="loading">
-                            <span
-                            v-show="loading"
-                            class="spinner-border spinner-border-sm"
-                            ></span>
-                            cancle
-                        </button>
-                    </div> -->
-                <!-- </form> -->
                     <div
                         v-if="message"
                         class="alert"
@@ -167,7 +129,7 @@ export default {
                     'Content-Type' : 'multipart/form-data'
                 },
             }).then(response => {
-                response.status === 200 ? alert("Edit") : alert("Error")
+                response.status === 200 ? alert("Edit Profile Success!") : alert("Error")
                 this.$router.go()
             })
         },

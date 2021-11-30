@@ -110,7 +110,7 @@ export default {
                 Authorization: authHeader().Authorization,
              },
         }).then(response => {
-                response.status === 200 ? alert("Update") : alert("Error")
+                response.status === 200 ? alert("Update Cart Success!") : alert("Error")
                 this.$router.go()
             }).catch(error => {
                 console.log(error);
@@ -122,7 +122,7 @@ export default {
                 Authorization: authHeader().Authorization,
              },
         }).then(response => {
-                response.status === 200 ? alert("Delete") : alert("Error")
+                response.status === 200 ? alert("Delete Cart Success!") : alert("Error")
                 this.$router.go()
             }).catch(error => {
                 console.log(error);

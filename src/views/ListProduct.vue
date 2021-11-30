@@ -71,9 +71,7 @@
         </base-block>
       </div> 
     </div>
-    <div class="md:grid-cols-4">
-        <router-view @show="refreshList()" ></router-view>
-    </div>
+
 
     <div v-if="openDetail"  class="overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none flex justify-center items-center mb-4">
             <div class="h-96 border-0 rounded-md shadow-lg flex flex-col lg:w-3/4 md:w-1/2 bg-white outline-none focus:outline-none">
@@ -141,7 +139,6 @@
 </template>
 
 <script>
-// import axios from 'axios';
 import ProductService from '../service/ProductService';
 import authHeader from '../service/AuthenHeader';
 // import SearchProduct from '../components/SearchProduct.vue';
@@ -176,11 +173,12 @@ export default {
         this.openDetail = false;
       },
       deleteProduct(productId) {
+        alert("Do you want to delete this product?");
         ProductService.delete("/delete/"+ productId) 
           .then(response => {
             this.product = response.data;
-            this.refreshList();
-            this.$router.push('/product');
+            alert("Delete Product Success!");
+            this.$router.go()
           });
       },
       clickDetail(productId){
@@ -200,8 +198,13 @@ export default {
                 Authorization: authHeader().Authorization
              },
         }).then(response => {
-                response.status === 200 ? alert("Add") : alert("Error")
+                if(response.status === 200){
+                  alert("Add Product Success!")
+                }  
+                
             }).catch(error => {
+                alert("You must been login for add product to cart!")
+                this.$router.push('/');
                 console.log(error);
             })
       },
@@ -215,9 +218,6 @@ export default {
       // return "http://localhost:9000/image/"+productImg;
       // return "http://52.230.37.169/backend/image/"+productImg;
       return "https://skorshop.ddns.net/backend/image/"+productImg;
-      },
-      refreshList() {
-        this.retrieveProduct();
       },
       listColor(){
             ProductService.get("/color").then(response => {

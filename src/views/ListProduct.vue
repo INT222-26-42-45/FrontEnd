@@ -1,26 +1,51 @@
 <template>
   <div class="w-full text-base font-sans text-black md:overflow-hidden">
-
-    <div class="flex justify-center mt-4 space-x-2">
+    <!-- <div class="flex justify-center my-4 space-x-2">
       <div>
         <input @keyup="searchProduct" v-show="search.click" v-model="boxsearch" placeholder="Enter sneaker's name!"
-                class="p-2 py-2 w-80 bg-white rounded border-2 border-black">
+                class="p-2 py-2 lg:w-80 sm:w-60 bg-white rounded border-2 border-black">
         </div>
       <div>
         <button  @click="statusSearch" v-show="search.nClick">
           <span class="material-icons">search</span>
         </button>
-        <button class="hover:bg-pink bg-black py-2 px-3 rounded-md text-white text-lg uppercase" v-show="search.click" @click="statusSearch">
+        <button class="hover:bg-pink bg-black py-2 px-3 rounded-md text-white lg:text-lg sm:text-base uppercase" v-show="search.click" @click="statusSearch">
           Cancel
         </button>
       </div>
-    </div> 
+    </div>  -->
+      <div class="flex justify-center my-4 space-x-2">
+        <div>
+          <input v-model="boxsearch" v-show="search.click" placeholder="Enter sneaker's name!"
+                  class="p-2 py-2 lg:w-80 sm:w-60 bg-white rounded border-2 border-black">
+          </div>
+        <div>
+          <button class="bg-black rounded-full text-white py-2 px-2 w-10 h-10 hover:text-pink"  @click="statusSearch" v-show="search.nClick">
+            <span class="material-icons">search</span>
+          </button>
+          <button class="hover:bg-pink bg-black py-2 px-3 rounded-md text-white lg:text-lg sm:text-base uppercase" v-show="search.click" @click="statusSearch">
+            Cancel
+          </button>
+        </div>
+      </div>
+
+      <div class="lg:flex lg:justify-center">
+        <router-link to="/list-product">
+          <button @click="toggleModal" class="hover:bg-black hover:text-pink py-3 px-3 mx-2 rounded-md text-darkgray text-xl font-bold uppercase">
+            Add Product
+          </button>
+        </router-link>
+      </div>
+      <add-product v-if="showModal" @save-product="addNewProduct" @close="toggleModal">
+        </add-product>
+      <div v-if="showModal" class="show-modal"></div>
     
-    <div class="flex justify-center h-full" v-show="notFound">
+    <!-- <div class="flex justify-center h-full" v-show="notFound">
         <p class="font-bold text-2xl my-24"> Your search isn't listed. </p>
-    </div>
-    <div class="grid md:grid-cols-4 sm:grid-cols-1 text-left justify-items-center">
-      <div v-show="p.pShow" v-for="p in product" :key="p.productId" :id="p.productId" class="w-full p-1 md:p-2">
+    </div> -->
+    
+    <div class="grid md:grid-cols-4 sm:grid-cols-1 text-left justify-items-center my-4">
+      <div v-for="(p, index) in filterProduct" :key="index" :id="p.productId" class="w-full p-1 md:p-2">
         <base-block class="relative">
           <img class="object-cover w-full rounded-t-md border-gray-200 h-36 bg-gray-200" :src="getProductImage(p.productImg)"/>
           <div class="text-left p-2">
@@ -29,12 +54,20 @@
             <p>{{"Price: "+ p.productPrice }} THB</p>
           </div>
           <div class="pb-8 pt-4">
-            <router-link to="/list-product">
-              <button @click="clickDetail(p.productId)"  class="bottom-2 right-2 hover:bg-black hover:text-pink py-2 w-32 rounded-md absolute text-black text-base uppercase">
-                see more <font-awesome-icon icon="arrow-right" class="mr-2"/>
+            <router-link to="/edit-product">
+              <button class="bottom-4 left-4 hover:text-pink absolute text-black text-base">
+                <font-awesome-icon icon="edit" class="mr-2"/>
               </button>
             </router-link>
+            <button class="absolute bottom-4 left-14 hover:text-pink text-black" @click="deleteProduct(p.productId)">
+                <font-awesome-icon icon="trash-alt" class="mr-2"/>
+            </button>
           </div>
+            <router-link to="/list-product">
+              <button @click="clickDetail(p.productId)"  class="bottom-2 right-2 hover:bg-black hover:text-pink py-2 w-32 rounded-md absolute text-black text-base uppercase">
+                <p class="md:hidden lg:inline">see more</p> <font-awesome-icon icon="arrow-right" class=" mr-2"/>
+              </button>
+            </router-link>
         </base-block>
       </div> 
     </div>
@@ -112,9 +145,11 @@
 import ProductService from '../service/ProductService';
 import authHeader from '../service/AuthenHeader';
 // import SearchProduct from '../components/SearchProduct.vue';
+import AddProduct from '../components/AddProduct.vue'
 export default {
     components: {
       // SearchProduct,
+      AddProduct
     },
     data(){
       return {
@@ -122,18 +157,31 @@ export default {
         show: false,
         popupProduct: [],
         openDetail: false,
-        quantity: 1,
+        quantity: null,
         productId: null,
         productName: "",
         search: {click: false, nClick: true},
         boxsearch: "",
-        notFound: false,
-        pShow: true
+        // notFound: false,
+        // pShow: true,
+        showModal: false,
+
       };  
     },
     methods: {
+      toggleModal: function() {
+        this.showModal = !this.showModal;
+      },
       closeModal(){
-      this.openDetail = false;
+        this.openDetail = false;
+      },
+      deleteProduct(productId) {
+        ProductService.delete("/delete/"+ productId) 
+          .then(response => {
+            this.product = response.data;
+            this.refreshList();
+            this.$router.push('/product');
+          });
       },
       clickDetail(productId){
         // this.openDetail = true;
@@ -164,9 +212,9 @@ export default {
           })
       },
       getProductImage(productImg){
-        return "https://skorshop.ddns.net/backend/image/"+productImg;
       // return "http://localhost:9000/image/"+productImg;
       // return "http://52.230.37.169/backend/image/"+productImg;
+      return "https://skorshop.ddns.net/backend/image/"+productImg;
       },
       refreshList() {
         this.retrieveProduct();
@@ -180,48 +228,56 @@ export default {
         this.search.click = !this.search.click
         this.search.nClick = !this.search.nClick
         this.boxsearch = ""
-        this.showList();
       },
-      searchProduct(){
-        if(this.boxsearch){
-          for (let index = 0; index < this.product.length; index++){
-            const texts = this.product[index];
-            if(texts.productName !== this.boxsearch.toUpperCase()){
-              texts.pShow = false
-              this.notFound = false
-            }
-            if(texts.productName.includes(this.boxsearch.toUpperCase())){
-              texts.pShow = true
-              this.notFound = false
-            }
-            if(this.product.every(texts => !texts.pShow)){
-              this.notFound = true
-            }
-          }
-        }else{
-          this.showList();
-        }
-      },
+      // searchProduct(){
+      //   if(this.boxsearch){
+      //     for (let index = 0; index < this.product.length; index++){
+      //       const texts = this.product[index];
+      //       if(texts.productName !== this.boxsearch.toUpperCase()){
+      //         texts.pShow = false
+      //         this.notFound = false
+      //       }
+      //       if(texts.productName.includes(this.boxsearch.toUpperCase())){
+      //         texts.pShow = true
+      //         this.notFound = false
+      //       }
+      //       if(this.product.every(texts => !texts.pShow)){
+      //         this.notFound = true
+      //       }
+      //     }
+      //   }else{
+      //     this.showList();
+      //   }
+      // },
     
-      showList(){
-        for (let index = 0; index < this.product.length; index++){
-          this.product[index].pShow = true
-          this.notFound = false
-        }
-      }
+      // showList(){
+      //   for (let index = 0; index < this.product.length; index++){
+      //     this.product[index].pShow = true
+      //     this.notFound = false
+      //   }
+      // }
     },
     created() {
     this.retrieveProduct(); 
     this.listColor(); 
     },
-  //   computed: {
-  //   filterImages() {
-  //     const { product, boxsearch } = this;
-  //     return product.filter(({ productName }) => productName.includes(boxsearch));
+    computed: {
+    // filterProduct() {
+    //   const { product, boxsearch } = this;
+    //   return product.filter(({ productName }) => productName.includes(boxsearch));
       
-  //   },
+    // },
 
-  // },
+    filterProduct() {
+      return this.product.filter(({ productName }) => 
+        { return productName.toUpperCase()
+        .includes(this.boxsearch.toUpperCase())
+        }
+      );
+      
+    },
+
+  },
 };
 </script>
 

@@ -2,7 +2,6 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import ContactUs from '../views/ContactUs.vue'
 import ListProduct from '../views/ListProduct.vue'
-import ManageProduct from '../views/ManageProduct.vue'
 import Cart from '../views/Cart.vue'
 import Profile from '../views/Profile.vue'
 import Login from '../views/Login.vue'
@@ -11,6 +10,7 @@ import Admin from '../views/Admin.vue'
 import LoginAdmin from '../views/LoginAdmin.vue'
 import User from '../views/User.vue'
 import BrandColor from '../views/BrandColor.vue'
+import EditProduct from '../views/EditProduct.vue'
 
 const routes = [
   
@@ -29,12 +29,6 @@ const routes = [
     path: '/contact-us',
     name: 'contact-us',
     component: ContactUs
-  },
-
-  {
-    path: '/manage-product',
-    name: 'ManageProduct',
-    component: ManageProduct
   },
 
   {
@@ -62,7 +56,7 @@ const routes = [
   },
 
   {
-    path: '/profile-admin',
+    path: '/admin-management',
     name: 'Admin',
     component: Admin
   },
@@ -83,6 +77,12 @@ const routes = [
     path: '/brand-color',
     name: 'BrandColor',
     component: BrandColor
+  },
+
+  {
+    path: '/edit-product',
+    name: 'EditProduct',
+    component: EditProduct
   },
 
 ]

@@ -111,7 +111,7 @@
 // import axios from 'axios';
 import ProductService from '../service/ProductService';
 import authHeader from '../service/AuthenHeader';
-// import SearchProduct from '../components/SearchProduct.vue';
+
 export default {
     components: {
       // SearchProduct,
@@ -122,7 +122,7 @@ export default {
         show: false,
         popupProduct: [],
         openDetail: false,
-        quantity: 1,
+        quantity: null,
         productId: null,
         productName: "",
         search: {click: false, nClick: true},

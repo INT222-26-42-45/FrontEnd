@@ -49,8 +49,8 @@
                     </tr> 
                 </tbody>
             </table>
+            </div>
                     <hr class="mt-6">
-                        </div>
                         <div class="my-4 mt-6 -mx-2 flex justify-center lg:flex">
                         <div class="lg:px-2 lg:w-1/2">
                         <div class="p-4">
@@ -100,8 +100,9 @@ export default {
             })
         },
         retrieveProductImage(productImg){
-            return "http://localhost:9000/image/"+productImg;
+            // return "http://localhost:9000/image/"+productImg;
             // return "http://52.230.37.169/backend/image/"+productImg;
+            return "https://skorshop.ddns.net/backend/image/"+productImg;
       },
       updateCart(cartId,quantity){
         ProductService.put(`/cart/update/${cartId}/${quantity}`, {} ,{
@@ -109,7 +110,7 @@ export default {
                 Authorization: authHeader().Authorization,
              },
         }).then(response => {
-                response.status === 200 ? alert("Update") : alert("Error")
+                response.status === 200 ? alert("Already updated!") : alert("Error")
                 this.$router.go()
             }).catch(error => {
                 console.log(error);
@@ -121,7 +122,7 @@ export default {
                 Authorization: authHeader().Authorization,
              },
         }).then(response => {
-                response.status === 200 ? alert("Delete") : alert("Error")
+                response.status === 200 ? alert("Product was deleted!") : alert("Error")
                 this.$router.go()
             }).catch(error => {
                 console.log(error);

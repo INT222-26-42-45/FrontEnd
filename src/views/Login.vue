@@ -4,7 +4,7 @@
            <img class="lg:w-auto lg:h-5/6 lg:mt-10 sm:mt-6 sm:w-auto sm:h-2/6" src="../assets/Login.png" />
         </div>
 
-        <div class="lg:w-2/5 lg:my-56 sm:mt-8 sm:flex sm:justify-center">
+        <div class="lg:w-2/5 lg:my-56 sm:mt-8 sm:flex sm:justify-center mb-4">
             <div class="relative border shadow-lg p-3 bg-white bg-opacity-30 rounded-lg lg:w-2/3 sm:w-96 h-72">
                 <p class="uppercase font-sans text-center text-xl font-bold mt-4">sign in</p>
                 <form  @submit.prevent="signIn(username,password)" class="sm:flex sm:flex-col sm:justify-center space-y-4 mt-6 mb-6">

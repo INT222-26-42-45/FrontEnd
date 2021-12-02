@@ -1,114 +1,95 @@
 <template>
-    <div class="flex flex-col font-sans my-4">
-        <div class=" text-center uppercase font-bold text-black text-2xl">
+    <div class="w-full bg-gray-100 font-sans text-darkgray md:overflow-hidden">
+        <div class="pt-4 text-center uppercase font-bold text-black text-2xl ">
             account management
         </div>
-        <div class="flex justify-center mt-4 text-darkgray">
-            <div v-for="u in user" :key="u.userId">
-            <table class="border-collapse border border-darkgray table-fixed w-3/4 text-lg shadow-lg">
-                <thead>
-                    <tr class="border border-r border-darkgray h-12 text-xl">
-                        <th class="uppercase w-1/5">id</th>
-                        <th class="uppercase w-1/3">username</th>
-                        <th class="uppercase w-1/2">firstname</th>
-                        <th class="uppercase w-1/2">lastname</th>
-                        <th class="uppercase w-1/3">gender</th>
-                        <th class="uppercase w-1/2">management</th>
-                    </tr>
-                </thead>
-                <tbody>
-                        <tr class="h-10">
-                            <td class="border-b border-darkgray">{{u.userId}}</td>
-                            <td class="border-b border-darkgray">{{u.username}}</td>
-                            <td class="border-b border-darkgray">{{u.firtname}}</td>
-                            <td class="border-b border-darkgray">{{u.lastname}}</td>
-                            <td class="border-b border-darkgray">{{u.gender}}</td>
-                            <td class="border-b border-darkgray space-x-4">
-                                <button @click="clickDelete" type="submit" class="font-sans text-base font-medium uppercase bottom-0 text-center text-white py-1 w-16 bg-red-600 hover:bg-red-700 rounded-md">
-                                    delete
-                                </button>
-                            </td>
-                        </tr>
-                    
-                </tbody>
-            </table>
-            </div>
-        </div>
-        <!-- <div class="border-collapse border border-darkgray table-fixed w-3/4 text-lg shadow-lg">
-            <router-view @show="refreshList()" ></router-view>
-        </div> -->
 
-        <div v-if="openVerify"  class="overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none flex justify-center items-center mb-4">
-            <div class=" h-56 border-0 rounded-md shadow-lg flex flex-col lg:w-2/4 md:w-1/2 bg-white outline-none focus:outline-none">
-
-              <div class="flex justify-end">
-                <button class="close text-black" type="button" @click="closeModal()" > X </button>
-              </div>
-
-              <div class="pt-3 flex justify-center md:justify-center">
-                <h3 class="text-2xl text-darkgray font-semibold">Enter your password to verify identity to delete the user!</h3>
-              </div>
-
-              <div class=" bg-white rounded-md px-4 pb-4">
-                <form class="text-darkgray space-y-2">
-                    <div class="lg:flex lg:flex-row justify-center mt-2 space-x-5 sm:flex-col">
-                        <div class="mt-2 w-3/5">
-                            <input v-model="password" type="password" class="inputsign w-full" required>
+        <div class="p-4 flex justify-center">
+            <div class="pin-r pin-y md:w-4/5 lg:w-4/5 bg-white p-2 pb-4 shadow-lg rounded-sm border border-gray-200">
+                <div class=" flex-1">
+                        <div v-for="u in user" :key="u.userId">
+                        <table class="w-full table-fixed" cellspacing="0">
+                            <thead>
+                                <tr class="lg:text-base sm:text-base uppercase text-gray-400 bg-gray-50">
+                                    <th class="p-2 whitespace-nowrap text-left ">
+                                        username
+                                    </th>
+                                    <th class="p-2 text-left  whitespace-nowrap hidden md:table-cell sm:table-cell">
+                                        firstname
+                                    </th>
+                                    <th class="p-2 text-left  whitespace-nowrap hidden md:table-cell sm:table-cell">
+                                        lastname
+                                    </th>
+                                    <th class="p-2 whitespace-nowrap">
+                                        management
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-base divide-y divide-gray-100">
+                                <tr>
+                                    <td class="p-2 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <!-- <div class="w-10 h-10 flex-shrink-0 mr-2 sm:mr-3"><img class="rounded-full" src="https://raw.githubusercontent.com/cruip/vuejs-admin-dashboard-template/main/src/images/user-36-05.jpg" width="40" height="40" alt="Alex Shatov"></div> -->
+                                            <div class="text-left font-medium text-gray-800">{{u.username}}</div>
+                                        </div>
+                                    </td>
+                                    <td class="p-2 hidden whitespace-nowrap md:table-cell sm:table-cell">
+                                        <div class="text-left font-medium">{{u.firstname}}</div>
+                                    </td>
+                                    <td class="p-2 hidden whitespace-nowrap md:table-cell sm:table-cell">
+                                        <div class="text-left font-medium">{{u.lastname}}</div>
+                                    </td>
+                                    <td class="p-2 whitespace-nowrap">
+                                        <button @click="deleteUser(u.userId)" type="submit" class="font-sans text-base font-medium uppercase bottom-0 text-center text-white py-1 w-16 bg-red-600 hover:bg-red-700 rounded-md">
+                                            delete
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                         </div>
                     </div>
-                    <div class="flex justify-around pt-3 ">
-                        <button type="submit" class="font-sans text-lg font-medium uppercase bottom-0 text-center text-white py-2 w-64 bg-green-600 hover:bg-green-500 rounded-md">
-                            <span
-                            class="spinner-border spinner-border-sm"
-                            ></span>
-                            submit
-                        </button>
-                        <button @click="closeModal()" type="submit" class="font-sans text-lg font-medium uppercase bottom-0 text-center text-white py-2 w-64 bg-red-600 hover:bg-red-500 rounded-md">
-                            <span
-                            class="spinner-border spinner-border-sm"
-                            ></span>
-                            cancle
-                        </button>
-                    </div>
-                  </form>
-               </div>
-
-            </div>
+                </div>
         </div>
-
-        <div v-if="openVerify" class="show-modal"></div>
     </div>
 </template>
 <script>
 import ProductService from '../service/ProductService.js';
-import AuthenHeader from '../service/AuthenHeader.js';
+import authHeader from '../service/AuthenHeader.js';
 export default {
     data(){
         return {
-            openVerify: false,
             user: [],
             userId: null
         }
     },
     methods: {
-        closeModal(){
-            this.openVerify = false;
-        },
-        clickDelete(){
-            this.openVerify = true;
-        },
-        retrieveListUser() {
+        retrieveUser() {
             ProductService.get("/listuser", {
-                headers: AuthenHeader()
-            })
-                .then(response => {
-                this.listUser = response.data;
-                console.log(response)
+                headers: {
+                Authorization: authHeader().Authorization
+             },
+            }).then(response => {
+                this.user = response.data;
             })
         },
+        deleteUser(userId) {
+            alert("Do you want to delete this user?");
+            ProductService.delete(`/user/delete/${userId}`, {
+             headers: {
+                Authorization: authHeader().Authorization,
+             },
+        }).then(response => {
+                response.status === 200 ? alert("User was deleted!") : alert("Error")
+                this.$router.go()
+            }).catch(error => {
+                console.log(error);
+            })
+      }
+        
     },
     created() {
-        this.retrieveListUser();
+        this.retrieveUser();
     } 
 };
 </script> 

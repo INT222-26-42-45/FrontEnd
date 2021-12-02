@@ -4,14 +4,14 @@
             <img class="inset-x-0 object-cover w-full h-64" alt="group1" src="../assets/admin2.png">
         </div>
         <div class="lg:flex lg:flex-row sm:flex sm:flex-col flex justify-center my-10 lg:space-x-12">
-            <div class="flex flex-row justify-around space-x-6">
+            <div class="lg:flex lg:flex-row lg:justify-around lg:space-x-6 sm:flex sm:flex-col ">
                 <router-link to="/user">
                     <button class="bg-black hover:text-pink py-3 px-3 w-48 rounded-md text-white text-xl font-bold uppercase">
                     users
                     </button>
                 </router-link>
                 <router-link to="/brand-color" >
-                    <button class="bg-black hover:text-pink py-3 px-3 w-48 rounded-md text-white text-xl font-bold uppercase">
+                    <button class="bg-black hover:text-pink py-3 px-3 w-48 sm:mt-4 rounded-md text-white text-xl font-bold uppercase">
                     brands/colors
                     </button>
                 </router-link>

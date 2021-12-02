@@ -27,7 +27,7 @@
                                 </div>
                                 <div>
                                     <label class="label">Price: </label>
-                                    <input  type="number"  placeholder=""
+                                    <input  type="number" 
                                     v-model.trim="productPrice"  class="font-medium rounded-md border-2 border-orange border-opacity-50y w-full px-3 py-2"/>
                                     <p v-if="invalidProductPrice" class="error">"Please enter product price"</p>
                                 </div>

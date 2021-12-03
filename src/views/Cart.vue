@@ -49,8 +49,8 @@
                     </tr> 
                 </tbody>
             </table>
+            </div>
                     <hr class="mt-6">
-                        </div>
                         <div class="my-4 mt-6 -mx-2 flex justify-center lg:flex">
                         <div class="lg:px-2 lg:w-1/2">
                         <div class="p-4">
@@ -110,7 +110,7 @@ export default {
                 Authorization: authHeader().Authorization,
              },
         }).then(response => {
-                response.status === 200 ? alert("Update") : alert("Error")
+                response.status === 200 ? alert("Already updated!") : alert("Error")
                 this.$router.go()
             }).catch(error => {
                 console.log(error);
@@ -122,7 +122,7 @@ export default {
                 Authorization: authHeader().Authorization,
              },
         }).then(response => {
-                response.status === 200 ? alert("Delete") : alert("Error")
+                response.status === 200 ? alert("Product was deleted!") : alert("Error")
                 this.$router.go()
             }).catch(error => {
                 console.log(error);

@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="font-sans overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none flex justify-center items-center mb-4">
-            <div class=" h-96 border-0 rounded-md shadow-lg flex flex-col lg:w-3/4 md:w-1/2 bg-darkgray outline-none focus:outline-none">
+            <div class="h-96 border-0 rounded-md shadow-lg flex flex-col lg:w-3/4 bg-darkgray outline-none focus:outline-none">
                 <div class="flex justify-end">
                     <button class="close text-white" type="button" @click="closeModal" > X </button>
                 </div>
@@ -11,8 +11,8 @@
 
                 <div class=" bg-darkgray rounded-md px-4 ">
                     <form @submit.prevent="productForm">
-                        <div class="lg:flex lg:flex-row justify-around mt-2 space-x-5 sm:flex-col">
-                            <div class="mt-2 w-2/5 space-y-2 ">
+                        <div class="lg:flex lg:flex-row justify-around mt-2 lg:space-x-5 sm:flex-col">
+                            <div class="mt-2 lg:w-2/5 lg:space-y-2 ">
                                 <div>
                                     <label class="label">Product name: </label>
                                     <input  type="text" id="productName" name="productName"
@@ -27,7 +27,7 @@
                                 </div>
                                 <div>
                                     <label class="label">Price: </label>
-                                    <input  type="number"  placeholder=""
+                                    <input  type="number" 
                                     v-model.trim="productPrice"  class="font-medium rounded-md border-2 border-orange border-opacity-50y w-full px-3 py-2"/>
                                     <p v-if="invalidProductPrice" class="error">"Please enter product price"</p>
                                 </div>
@@ -44,11 +44,11 @@
                                     <p v-if="invalidProductDate" class="error">"Please enter product date"</p>
                                 </div>
                             </div>
-                            <div class="mt-2 w-3/5 space-y-1">
+                            <div class="mt-2 lg:w-3/5 lg:space-y-1">
                                 <div>
                                     <label class="label">Description: </label>
                                     <textarea rows="4" cols="50" type="text" id="productDescription" name="productDescription"
-                                    placeholder="Enter product description ..." v-model.trim="productDescription"  class="w-full px-3 py-2 mb-1 h-52 font-medium text-left bg-white border-2 border-orange border-opacity-50y rounded-md"/>
+                                    placeholder="Enter product description ..." v-model.trim="productDescription"  class="w-full px-3 py-2 mb-1 h-48 font-medium text-left bg-white border-2 border-orange border-opacity-50y rounded-md"/>
                                     <p v-if="invalidProductDescription" class="error">"Please enter product description"</p>
                                 </div>
                                 <div>
@@ -58,7 +58,15 @@
                                     </select>
                                     <p v-if="invalidBrand" class="error">"Please select product brand"</p>
                                 </div>
-                                <div class="pt-1.5">
+                                <div>
+                                    <label class="label pt-1">Color: </label>
+                                    <select id="brands"  v-model.trim="selectColor"  name="brands" class="font-medium rounded-md border-2 border-orange border-opacity-50y w-full px-3 py-2" >  
+                                        <option v-for="color in colors" :value="color"  :key="color.colorId" class=" w-8 h-8 rounded-md mx-2 text-gray-700" :style="{ background: color.colorName }"> 
+                                            {{ color.colorName }}</option> 
+                                    </select>
+                                    <p v-if="invalidColors" class="error">"Please select product color"</p>
+                                </div>
+                                <!-- <div class="pt-1.5">
                                     <label  class="label">Color: </label>
                                     <div class="grid grid-cols-10 justify-items-start">
                                         <div v-for="color in colors" :key="color.colorId"  >
@@ -67,15 +75,15 @@
                                         </div>
                                     </div>
                                     <p v-if="invalidColors" class="error">"Please select product color"</p>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
 
                         <div class="mt-4 mb-4 flex flex-col items-center space-y-2">
-                            <label class="label">Choose a product picture (*.png, *.jpeg): </label>
+                            <label class="label">Choose a product picture (*.png): </label>
                             <input type="file" class="text-white" accept="product.productImg/png" @change="selectPic" />
                             <div class="flex justify-center">
-                                <img :src="imageUpload" class="object-cover h-60 w-30" />
+                                <img :src="imageUpload" class="object-cover lg:h-60 w-30 sm:h-36" />
                             </div>
                         </div>
                         <div class=" flex flex-row justify-center space-x-2 mt-4 mb-4">
@@ -94,6 +102,7 @@
 <script>
 import imageUpload from "../assets/imageupload.png";
 import ProductService from '../service/ProductService.js';
+import authHeader from '../service/AuthenHeader';
 export default {
     name: "add-product",
     props: ["imageDb"],
@@ -121,7 +130,7 @@ export default {
             invalidBrands: false,
             invalidColors: false,
             selectBrand: null,
-            selectColor: [],
+            selectColor: null,
             image: null
         }
     },
@@ -165,14 +174,19 @@ export default {
             
             ProductService.post("/add", formData, {
                 headers: {
+                    Authorization: authHeader().Authorization,
                     'Content-Type' : 'multipart/form-data'
                 }
             }).then(response => {
-                response.status === 200 ? alert("Add") : alert("Error")
+                if(response.status === 200){
+                    alert("Add product success!")
+                    this.$router.go()
+                }
             }).catch(error => {
-            let errorObject=JSON.parse(JSON.stringify(error));
-            console.log(errorObject);
-            })
+                // alert("You must been login for delete product!")
+                // this.$router.push('/');
+                console.log(error);
+          })
         },
         closeModal(){
             this.$emit("close", true);

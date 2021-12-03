@@ -10,7 +10,6 @@ import Admin from '../views/Admin.vue'
 import LoginAdmin from '../views/LoginAdmin.vue'
 import User from '../views/User.vue'
 import BrandColor from '../views/BrandColor.vue'
-import EditProduct from '../views/EditProduct.vue'
 
 const routes = [
   
@@ -79,11 +78,7 @@ const routes = [
     component: BrandColor
   },
 
-  {
-    path: '/edit-product',
-    name: 'EditProduct',
-    component: EditProduct
-  },
+
 
 ]
 

@@ -124,7 +124,9 @@ export default {
                   this.message = data.message;
                   this.successful = true;
                   this.loading = false;
+                  alert("You was registered!")
                   this.$router.push('/');
+                  
               },
               (error) => {
                   this.message = 

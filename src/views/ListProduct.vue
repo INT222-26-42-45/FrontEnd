@@ -178,12 +178,20 @@ export default {
       },
       deleteProduct(productId) {
         alert("Do you want to delete this product?");
-        ProductService.delete(`/delete/${productId}`) 
+        ProductService.delete(`/delete/${productId}`,  {
+            headers: {
+                Authorization: authHeader().Authorization,
+             },
+        }) 
           .then(response => {
             this.product = response.data;
             alert("The product was deleted!");
             this.$router.go()
-          });
+          }).catch(error => {
+                alert("You must been login for delete product!")
+                this.$router.push('/');
+                console.log(error);
+          })
       },
       clickDetail(productId){
         // this.openDetail = true;

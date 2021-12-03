@@ -70,7 +70,7 @@
             </div>
 
             <div class="mt-4 mb-4 flex flex-col items-center space-y-2">
-                <label class="label">Choose a product picture (*.png, *.jpeg): </label>
+                <label class="label">Choose a product picture (*.png): </label>
                 <input type="file" class="text-white" accept="product.productImg/png" @change="selectPic" />
                 <div class="flex justify-center">
                     <img :src="imageUpload" class="object-cover lg:h-60 w-30 sm:h-36" />
@@ -89,6 +89,7 @@
 <script>
 import imageUpload from "../assets/imageupload.png";
 import ProductService from '../service/ProductService.js';
+import authHeader from '../service/AuthenHeader';
 
 export default {
     name: "edit-product",
@@ -153,11 +154,18 @@ export default {
             
             ProductService.put(`/edit/${productId}`, formData, {
                 headers: {
+                    Authorization: authHeader().Authorization,
                     'Content-Type' : 'multipart/form-data'
                 }
             }).then(response => {
-                response.status === 200 ? alert("Already edited!") : alert("Error")
-                this.$router.go()
+                if(response.status === 200){
+                  alert("Edit product success!")
+                  this.$router.go()
+                } 
+            }).catch(error => {
+                alert("You must been login for edit product!")
+                this.$router.push('/');
+                console.log(error);
             })
         },
         selectPic(s) {

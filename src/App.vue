@@ -25,7 +25,7 @@
             </router-link>
           </div>
         </div>
-        <button class="flex-no-grow flex-no-shrink py-2 px-4 leading-normal text-white no-underline flex items-center " @click.prevent="logOut">
+        <button  v-if="currentUser" class="flex-no-grow flex-no-shrink py-2 px-4 leading-normal text-white no-underline flex items-center " @click.prevent="logOut">
           <font-awesome-icon icon="sign-out-alt" class="mr-2"/>LOG OUT
         </button>
       
@@ -114,6 +114,11 @@
 </template>
 <script>
 export default {
+  data(){
+    return {
+      logoutShow: false
+    }
+  },
   computed: {
     currentUser() {
       return this.$store.state.auth.users;

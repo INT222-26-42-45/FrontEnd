@@ -105,7 +105,6 @@ import ProductService from '../service/ProductService.js';
 import authHeader from '../service/AuthenHeader';
 export default {
     name: "add-product",
-    props: ["imageDb"],
     emits: ["close", "save-product"],
     data() {
         return {
@@ -179,7 +178,7 @@ export default {
                 }
             }).then(response => {
                 if(response.status === 200){
-                    alert("Add product success!")
+                    alert("Product was added!")
                     this.$router.go()
                 }
             }).catch(error => {

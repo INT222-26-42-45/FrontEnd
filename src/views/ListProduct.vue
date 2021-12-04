@@ -149,7 +149,6 @@ export default {
       AddProduct,
       EditProduct
     },
-    emits: ["edited"],
     data(){
       return {
         product: [],

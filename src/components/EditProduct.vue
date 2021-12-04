@@ -93,7 +93,7 @@ import authHeader from '../service/AuthenHeader';
 
 export default {
     name: "edit-product",
-    props: ["pId", "close"],
+    props: ["pId"],
     data() {
         return {
             imageUpload: this.imageDb ? this.imageDb : imageUpload,
@@ -159,7 +159,7 @@ export default {
                 }
             }).then(response => {
                 if(response.status === 200){
-                  alert("Edit product success!")
+                  alert("Already edited!")
                   this.$router.go()
                 } 
             }).catch(error => {

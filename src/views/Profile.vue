@@ -101,7 +101,6 @@ export default {
                     this.email = response.data[i].email,
                     this.tel = response.data[i].tel
                 }
-                // console.log(response)
             })
         },
         updateProfile(userId){

@@ -182,8 +182,10 @@ export default {
                     this.$router.go()
                 }
             }).catch(error => {
-                // alert("You must been login for delete product!")
-                // this.$router.push('/');
+                if(error.status === 401){
+                alert("You must been login for add product!")
+                this.$router.push('/');
+                }
                 console.log(error);
           })
         },

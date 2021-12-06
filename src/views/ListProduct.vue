@@ -1,19 +1,5 @@
 <template>
   <div class="w-full text-base font-sans text-black md:overflow-hidden">
-    <!-- <div class="flex justify-center my-4 space-x-2">
-      <div>
-        <input @keyup="searchProduct" v-show="search.click" v-model="boxsearch" placeholder="Enter sneaker's name!"
-                class="p-2 py-2 lg:w-80 sm:w-60 bg-white rounded border-2 border-black">
-        </div>
-      <div>
-        <button  @click="statusSearch" v-show="search.nClick">
-          <span class="material-icons">search</span>
-        </button>
-        <button class="hover:bg-pink bg-black py-2 px-3 rounded-md text-white lg:text-lg sm:text-base uppercase" v-show="search.click" @click="statusSearch">
-          Cancel
-        </button>
-      </div>
-    </div>  -->
       <div class="flex justify-center my-4 space-x-2">
         <div>
           <input v-model="boxsearch" v-show="search.click" placeholder="Enter sneaker's name!"
@@ -38,9 +24,6 @@
       </add-product>
       <div v-if="showModal" class="show-modal"></div>
     
-    <!-- <div class="flex justify-center h-full" v-show="notFound">
-        <p class="font-bold text-2xl my-24"> Your search isn't listed. </p>
-    </div> -->
     <edit-product v-if="openEdit" @close="closeModal" :pId="productEdit">
     </edit-product>
     <div v-if="openEdit" class="show-modal"></div>
@@ -140,12 +123,10 @@
 <script>
 import ProductService from '../service/ProductService';
 import authHeader from '../service/AuthenHeader';
-// import SearchProduct from '../components/SearchProduct.vue';
 import AddProduct from '../components/AddProduct.vue';
 import EditProduct from '../components/EditProduct.vue';
 export default {
     components: {
-      // SearchProduct,
       AddProduct,
       EditProduct
     },
@@ -160,8 +141,6 @@ export default {
         productName: "",
         search: {click: false, nClick: true},
         boxsearch: "",
-        // notFound: false,
-        // pShow: true,
         showModal: false,
         productEdit: "",
         openEdit: false
@@ -187,13 +166,14 @@ export default {
             alert("The product was deleted!");
             this.$router.go()
           }).catch(error => {
+              if(error.status === 401){
                 alert("You must been login for delete product!")
                 this.$router.push('/');
+              }
                 console.log(error);
           })
       },
       clickDetail(productId){
-        // this.openDetail = true;
         this.popupProduct = [];
         var pro = [];
         ProductService.get("/product/"+productId)
@@ -205,11 +185,8 @@ export default {
       },
       editProduct(productId){
         this.productEdit = productId;
-        this.openEdit = true;
-        // console.log(this.productEdit)
-        
+        this.openEdit = true;       
       },
-
       addToCart(productId, quantity){
         ProductService.post(`/cart/add/${productId}/${quantity}`, {} ,{
              headers: {
@@ -221,8 +198,10 @@ export default {
                 }  
                 
             }).catch(error => {
+              if(error.status === 401){
                 alert("You must been login for add product to cart!")
                 this.$router.push('/');
+              }
                 console.log(error);
             })
       },
@@ -247,45 +226,13 @@ export default {
         this.search.nClick = !this.search.nClick
         this.boxsearch = ""
       },
-      // searchProduct(){
-      //   if(this.boxsearch){
-      //     for (let index = 0; index < this.product.length; index++){
-      //       const texts = this.product[index];
-      //       if(texts.productName !== this.boxsearch.toUpperCase()){
-      //         texts.pShow = false
-      //         this.notFound = false
-      //       }
-      //       if(texts.productName.includes(this.boxsearch.toUpperCase())){
-      //         texts.pShow = true
-      //         this.notFound = false
-      //       }
-      //       if(this.product.every(texts => !texts.pShow)){
-      //         this.notFound = true
-      //       }
-      //     }
-      //   }else{
-      //     this.showList();
-      //   }
-      // },
-    
-      // showList(){
-      //   for (let index = 0; index < this.product.length; index++){
-      //     this.product[index].pShow = true
-      //     this.notFound = false
-      //   }
-      // }
+
     },
     created() {
     this.retrieveProduct(); 
     this.listColor(); 
     },
     computed: {
-    // filterProduct() {
-    //   const { product, boxsearch } = this;
-    //   return product.filter(({ productName }) => productName.includes(boxsearch));
-      
-    // },
-
     filterProduct() {
       return this.product.filter(({ productName }) => 
         { return productName.toUpperCase()
@@ -294,7 +241,6 @@ export default {
       );
       
     },
-
   },
 };
 </script>

@@ -56,16 +56,6 @@
                                         {{ color.colorName }}</option> 
                             </select>
                     </div>
-                                <!-- <div class="pt-1.5">
-                                    <label  class="label">Color: </label>
-                                    <div class="grid grid-cols-10 justify-items-start">
-                                        <div v-for="color in colors" :key="color.colorId"  >
-                                            <input type="checkbox" v-model="selectColor" :value="color"/>
-                                           <div class=" w-8 h-8 rounded-md mx-2" :style="{ background: color.colorName }"></div>
-                                        </div>
-                                    </div>
-                                    <p v-if="invalidColors" class="error">"Please select product color"</p>
-                                </div> -->
                 </div>
             </div>
 
@@ -163,8 +153,10 @@ export default {
                   this.$router.go()
                 } 
             }).catch(error => {
+                if(error.status === 401){
                 alert("You must been login for edit product!")
                 this.$router.push('/');
+                }
                 console.log(error);
             })
         },

@@ -85,8 +85,8 @@ export default {
         cart: [],
         quantity: null,
         userId: null,
-        totalPrice: null,
-        cartId: null
+        cartId: null,
+        totalPrice: 0,
       };
     },
     methods: {
@@ -97,6 +97,9 @@ export default {
              },
             }).then(response => {
                 this.cart = response.data;
+                for(let i in response.data){
+                    this.totalPrice += response.data[i].total
+                }
             })
         },
         retrieveProductImage(productImg){
@@ -111,7 +114,8 @@ export default {
              },
         }).then(response => {
                 response.status === 200 ? alert("Already updated!") : alert("Error")
-                this.$router.go()
+                this.totalPrice = 0
+                this.listCart();
             }).catch(error => {
                 console.log(error);
             })
@@ -123,25 +127,16 @@ export default {
              },
         }).then(response => {
                 response.status === 200 ? alert("Product was deleted!") : alert("Error")
-                this.$router.go()
+                this.totalPrice = 0
+                this.listCart();
             }).catch(error => {
                 console.log(error);
             })
       },
+
     },
     mounted(){
-        ProductService.get(`/cart` , {
-             headers: {
-                Authorization: authHeader().Authorization,
-             },
-            }).then(response => {
-                for(let i in response.data){
-                    this.totalPrice += response.data[i].total
-                }
-            })
-    },
-    created() {
         this.listCart();
-    }
+    },
 };
 </script> 

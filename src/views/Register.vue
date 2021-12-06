@@ -49,10 +49,6 @@
                         <label class="labelsign">Password: </label>
                         <input v-model="password" type="password" class="inputsign" required>
                     </div>
-                    <!-- <div class="flex flex-col">
-                        <label class="labelsign">Confirm Password: </label>
-                        <input v-model="passwordConfirm" type="password" class="inputsign" required>
-                    </div> -->
                     <div class="flex justify-center pt-2">
                         <button type="submit" class="font-sans text-lg font-medium uppercase bottom-0 text-center text-white py-2 w-72 bg-black hover:bg-pink" :disabled="loading">
                             <span
@@ -84,10 +80,8 @@
 </template>
 
 <script>
-// import axios from 'axios';
 export default {
   name: 'Register',
-//   props: ["baseURL"],
   data() {
       return {
         firstname: "",
